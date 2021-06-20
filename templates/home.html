@@ -1,4 +1,7 @@
-<h1>Home</h1>
-<button>Login</button>
-<button>New Bollard</button>
-<button>Manage Bollards</button>
+{% extends "base.html" %}
+{% block content %}
+  <h1>Home</h1>
+  <a href="/login"><button >Login</button></a>
+  <a href="/add"><button>New Bollard</button></a>
+  <a href="/list"><button>List Bollards</button></a>
+{% endblock content %}

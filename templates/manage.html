@@ -1,6 +1,13 @@
-<h1>New Bollard</h1>
-<div>Bollard No <input type="text" maxlength="10"></div>
-<div>Name: <input type="text"></div>
-<div>Comment: <textarea cols="100" rows="5"></textarea></div>
-<div>Main Image: Comming soon</div>
-<div>Images: Comming soon</div>
+{% extends "base.html" %}
+{% block content %}
+    {% if title == 'Add' %}
+        <h1>New Bollard</h1>
+    {% else %}
+        <h1>Manage Bollard</h1>
+    {% endif %}
+    <div>Bollard No <input type="text" maxlength="10"></div>
+    <div>Name: <input type="text"></div>
+    <div>Comment: <textarea cols="100" rows="5"></textarea></div>
+    <div>Main Image: Comming soon</div>
+    <div>Images: Comming soon</div>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Bollards List</h1>
+  <table style="border: 1px solid black;">
+      <tr >
+        <th>Number</th>
+        <th>Name</th>
+        <th>Comment</th>
+      </tr>
+      {% for bollard in bollards %}
+        <tr>
+          <td><b>Bollard No {{bollard.number}}</b></td>
+          <td>{{bollard.name}}</td>
+          <td>{{bollard.comment}}</td>
+          <td><button>Edit</button></td>
+          <td><button>Delete</button></td>
+        </tr>
+        
+      {% endfor %}
+      </tr>
+    </table>
+  {% endblock content %}
