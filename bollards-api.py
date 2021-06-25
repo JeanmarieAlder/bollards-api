@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
+from forms import LoginForm, BollardForm
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'plzchangeit'
 bollards = [
     {
         "number": "1",
@@ -30,9 +31,13 @@ bollards = [
 def home():
     return render_template('home.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html', title='Login')
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash(f'Logged in successfully. Welcome {form.username.data}.', 'success')
+        return redirect(url_for('home'))
+    return render_template('login.html', title='Login', form=form)
 
 @app.route('/list')
 def list_bollards():
@@ -40,11 +45,13 @@ def list_bollards():
 
 @app.route('/manage')
 def manage():
-    return render_template('manage.html', title='Manage')
+    form = BollardForm()
+    return render_template('manage.html', title='Manage', form=form)
 
 @app.route('/add')
 def add():
-    return render_template('manage.html', title='Add')
+    form = BollardForm()
+    return render_template('manage.html', title='Add', form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)

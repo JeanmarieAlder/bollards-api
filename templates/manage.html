@@ -1,13 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
     {% if title == 'Add' %}
-        <h1>New Bollard</h1>
+    <h1>New Bollard</h1>
     {% else %}
-        <h1>Manage Bollard</h1>
+    <h1>Manage Bollard</h1>
     {% endif %}
-    <div>Bollard No <input type="text" maxlength="10"></div>
-    <div>Name: <input type="text"></div>
-    <div>Comment: <textarea cols="100" rows="5"></textarea></div>
-    <div>Main Image: Comming soon</div>
-    <div>Images: Comming soon</div>
+    <div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.number.label(class="form-control-label") }}
+
+                    {% if form.number.errors %}
+                        {{ form.number(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.number.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.number(class="form-control form-control-lg", autocomplete="off") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.comment.label(class="form-control-label") }}
+
+                    {% if form.comment.errors %}
+                        {{ form.comment(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.comment.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.comment(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.main_image.label(class="form-control-label") }}
+                    <div class="form-group dropzone">
+                        {{ form.main_image }}
+                    </div>
+                   
+                  </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </fieldset>
+            
+        </form>
+    </div>
 {% endblock content %}

@@ -67,3 +67,7 @@ body {
     height: 25px;
     vertical-align: middle;
   }
+
+.form-group{
+  padding: 4px;
+}
