@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
 
 from bollards_api.models import User
 
@@ -23,6 +24,8 @@ class RegisterForm(FlaskForm):
     
     password = PasswordField('Password',
                             validators=[DataRequired(), Length(min=8, max=50)])
+    confirm_password = PasswordField('Confirm Password',
+                            validators=[DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Register')
 
@@ -32,6 +35,24 @@ class RegisterForm(FlaskForm):
 
         if user_exists:
             raise ValidationError('Username allready taken')
+
+
+class UpdateAccountForm(FlaskForm):
+    username = StringField('Username', data=current_user.username,
+                            validators=[DataRequired(), Length(min=3, max=25)])
+
+    password = PasswordField('Password',
+                            validators=[DataRequired(), Length(min=8, max=50)])
+    confirm_password = PasswordField('Confirm Password',
+                            validators=[DataRequired(), EqualTo('password')])
+
+    submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user_exists = User.query.filter_by(username=username.data).first()
+            if user_exists:
+                raise ValidationError('Username allready taken')
 
 
 class BollardForm(FlaskForm):
