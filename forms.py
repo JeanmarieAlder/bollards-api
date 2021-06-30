@@ -20,7 +20,7 @@ class BollardForm(FlaskForm):
                             validators=[DataRequired(), Length(min=1, max=10)])
     
     name = StringField('Name',
-                            validators=[Length(max=50)])
+                            validators=[Length(max=100)])
 
     comment = StringField('Comment')
 

@@ -2,18 +2,20 @@
 {% block content %}
   <h1>Bollards List</h1>
   <table style="border: 1px solid black;">
-      <tr >
-        <th>Number</th>
-        <th>Name</th>
-        <th>Comment</th>
+      <tr style="border: 1px solid black;">
+        <th style="border: 1px solid black;">Number</th>
+        <th style="border: 1px solid black;">Name</th>
+        <th style="border: 1px solid black;">Comment</th>
+        <th style="border: 1px solid black;">Edit</th>
+        <th style="border: 1px solid black;">Delete</th>
       </tr>
       {% for bollard in bollards %}
-        <tr>
-          <td><b>Bollard No {{bollard.number}}</b></td>
-          <td>{{bollard.name}}</td>
-          <td>{{bollard.comment}}</td>
-          <td><button>Edit</button></td>
-          <td><button>Delete</button></td>
+        <tr style="border: 1px solid black;">
+          <td style="border: 1px solid black;"><b>Bollard No {{bollard.number}}</b></td>
+          <td style="border: 1px solid black;">{{bollard.name}}</td>
+          <td style="border: 1px solid black;">{{bollard.comment}}</td>
+          <td style="border: 1px solid black;"><button>Edit</button></td>
+          <td style="border: 1px solid black;"><button>Delete</button></td>
         </tr>
         
       {% endfor %}
