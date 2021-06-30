@@ -1,11 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, ValidationError
+
+from bollards_api.models import User
 
 class LoginForm(FlaskForm):
     username = StringField('Username',
-                            validators=[DataRequired(), Length(min=3, max=25)])
+                            validators=[DataRequired()])
     
     password = PasswordField('Password',
                             validators=[DataRequired(), Length(min=8, max=50)])
@@ -13,6 +15,23 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
 
     submit = SubmitField('Log in')
+
+
+class RegisterForm(FlaskForm):
+    username = StringField('Username',
+                            validators=[DataRequired(), Length(min=3, max=25)])
+    
+    password = PasswordField('Password',
+                            validators=[DataRequired(), Length(min=8, max=50)])
+
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+
+        user_exists = User.query.filter_by(username=username.data).first()
+
+        if user_exists:
+            raise ValidationError('Username allready taken')
 
 
 class BollardForm(FlaskForm):
