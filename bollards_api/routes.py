@@ -1,34 +1,7 @@
-from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect
-from flask_sqlalchemy import SQLAlchemy
-from forms import LoginForm, BollardForm
-
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = 'plzchangeit'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bollards.db'
-
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(25), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-
-    def __repr__(self):
-        return f"User('{self.username}')"
-
-class Bollard(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.String(10), unique=True, nullable=False)
-    name = db.Column(db.String(50))
-    comment = db.Column(db.Text())
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"Bollard('{self.number}', '{self.name}', '{self.comment}', '{self.image_file}')"
+from flask import render_template, url_for, flash, redirect
+from bollards_api import app
+from bollards_api.models import User, Bollard
+from bollards_api.forms import LoginForm, BollardForm
 
 bollards = [
     {
@@ -86,6 +59,3 @@ def add():
         flash(f'Bollard {form.number.data} Created', 'success')
         return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)
-
-if __name__ == "__main__":
-    app.run(debug=True)
