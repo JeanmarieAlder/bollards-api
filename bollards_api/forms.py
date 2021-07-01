@@ -38,13 +38,8 @@ class RegisterForm(FlaskForm):
 
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username', data=current_user.username,
+    username = StringField('Username',
                             validators=[DataRequired(), Length(min=3, max=25)])
-
-    password = PasswordField('Password',
-                            validators=[DataRequired(), Length(min=8, max=50)])
-    confirm_password = PasswordField('Confirm Password',
-                            validators=[DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Update')
 
@@ -53,6 +48,18 @@ class UpdateAccountForm(FlaskForm):
             user_exists = User.query.filter_by(username=username.data).first()
             if user_exists:
                 raise ValidationError('Username allready taken')
+
+
+class UpdateAccountPasswordForm(FlaskForm):
+    old_password = PasswordField('Old Password',
+                            validators=[DataRequired(), Length(min=3, max=25)])
+
+    new_password = PasswordField('New Password',
+                            validators=[DataRequired(), Length(min=8, max=50)])
+    confirm_password = PasswordField('Confirm Password',
+                            validators=[DataRequired(), EqualTo('new_password')])
+
+    submit = SubmitField('Update Password')
 
 
 class BollardForm(FlaskForm):

@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from bollards_api import app, db, bcrypt
 from bollards_api.models import User, Bollard
-from bollards_api.forms import LoginForm, BollardForm, RegisterForm, UpdateAccountForm
+from bollards_api.forms import LoginForm, BollardForm, RegisterForm, UpdateAccountForm, UpdateAccountPasswordForm
 from flask_login import login_user, logout_user , current_user, login_required
 
 bollards = [
@@ -56,9 +56,24 @@ def logout():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    form = UpdateAccountForm()
+    form_account = UpdateAccountForm()
+    form_password = UpdateAccountPasswordForm()
+    if form_account.validate_on_submit():
+        current_user.username = form_account.username.data
+        db.session.commit()
+        flash(f'Accound updated, your username is now {form_account.username.data}.', 'success')
+    elif form_password.validate_on_submit():
+        existing_user = User.query.filter_by(username=current_user.username).first()
+        if existing_user and bcrypt.check_password_hash(existing_user.password, form_password.old_password.data):
+            hashed_password = bcrypt.generate_password_hash(form_password.new_password.data).decode('utf-8')
+            current_user.password = hashed_password
+            db.session.commit()
+            flash(f'Account password updated successfully.', 'success')
+            # return redirect(url_for('login'))
     profile_pic = url_for('static', filename='img/' + current_user.profile_pic)
-    return render_template('account.html', title='Account', profile_pic=profile_pic, form=form)
+    return render_template('account.html', title='Account', 
+                            profile_pic=profile_pic, form_account=form_account,
+                            form_password=form_password)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -85,6 +100,7 @@ def manage():
     return render_template('manage.html', title='Manage', form=form)
 
 @app.route('/add', methods=['GET', 'POST'])
+@login_required
 def add():
     form = BollardForm()
     if form.validate_on_submit():
