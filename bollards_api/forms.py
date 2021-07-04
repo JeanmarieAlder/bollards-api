@@ -41,7 +41,7 @@ class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
                             validators=[DataRequired(), Length(min=3, max=25)])
 
-    submit = SubmitField('Update')
+    submit_account = SubmitField('Update')
 
     def validate_username(self, username):
         if username.data != current_user.username:
@@ -59,7 +59,7 @@ class UpdateAccountPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                             validators=[DataRequired(), EqualTo('new_password')])
 
-    submit = SubmitField('Update Password')
+    submit_password = SubmitField('Update Password')
 
 
 class BollardForm(FlaskForm):

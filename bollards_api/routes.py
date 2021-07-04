@@ -37,6 +37,7 @@ def home():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print(request.form)
         existing_user = User.query.filter_by(username=form.username.data).first()
         if existing_user and bcrypt.check_password_hash(existing_user.password, form.password.data):
             login_user(existing_user, remember=form.remember.data)
@@ -58,11 +59,12 @@ def logout():
 def account():
     form_account = UpdateAccountForm()
     form_password = UpdateAccountPasswordForm()
-    if form_account.validate_on_submit():
+    # Check which form has been submitted, to make it work, submit buttons must have different names.
+    if form_account.submit_account.data and form_account.validate_on_submit():
         current_user.username = form_account.username.data
         db.session.commit()
         flash(f'Accound updated, your username is now {form_account.username.data}.', 'success')
-    elif form_password.validate_on_submit():
+    elif form_password.submit_password.data and form_password.validate_on_submit():
         existing_user = User.query.filter_by(username=current_user.username).first()
         if existing_user and bcrypt.check_password_hash(existing_user.password, form_password.old_password.data):
             hashed_password = bcrypt.generate_password_hash(form_password.new_password.data).decode('utf-8')
@@ -70,6 +72,8 @@ def account():
             db.session.commit()
             flash(f'Account password updated successfully.', 'success')
             # return redirect(url_for('login'))
+    elif request.method == 'GET':
+        form_account.username.data = current_user.username
     profile_pic = url_for('static', filename='img/' + current_user.profile_pic)
     return render_template('account.html', title='Account', 
                             profile_pic=profile_pic, form_account=form_account,
