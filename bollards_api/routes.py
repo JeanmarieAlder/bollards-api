@@ -1,3 +1,6 @@
+import secrets
+import os
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from bollards_api import app, db, bcrypt
 from bollards_api.models import User, Bollard
@@ -35,6 +38,8 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         print(request.form)
@@ -54,29 +59,60 @@ def logout():
     return redirect(url_for('home'))
 
 
+def save_picture(new_picture, folder_path):
+    random_hex = secrets.token_hex(8)
+    _, file_ext = os.path.splitext(new_picture.filename)
+    picture_filename = random_hex + file_ext
+    picture_path = os.path.join(app.root_path, 'static', 'img', 
+                                    folder_path, picture_filename)
+    output_size = (150, 150)
+    i = Image.open(new_picture)
+    i.thumbnail(output_size, Image.ANTIALIAS)
+
+    i.save(picture_path)
+    return picture_filename
+
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     form_account = UpdateAccountForm()
     form_password = UpdateAccountPasswordForm()
+    form_account_submitted = form_account.submit_account.data
+    form_password_submitted = form_password.submit_password.data
+    if form_account_submitted:
+        accordion_account_open = "show"
+        accordion_password_open = ""
+    elif form_password_submitted:
+        accordion_account_open = ""
+        accordion_password_open = "show"
+    else:
+        accordion_account_open = ""
+        accordion_password_open = ""
     # Check which form has been submitted, to make it work, submit buttons must have different names.
-    if form_account.submit_account.data and form_account.validate_on_submit():
+    if form_account_submitted and form_account.validate_on_submit():
+        if form_account.profile_pic.data:
+            picture_file = save_picture(form_account.profile_pic.data, 'profile_pics')
+            print(picture_file)
+            current_user.profile_pic = picture_file
         current_user.username = form_account.username.data
         db.session.commit()
         flash(f'Accound updated, your username is now {form_account.username.data}.', 'success')
-    elif form_password.submit_password.data and form_password.validate_on_submit():
+    elif form_password_submitted and form_password.validate_on_submit():
         existing_user = User.query.filter_by(username=current_user.username).first()
         if existing_user and bcrypt.check_password_hash(existing_user.password, form_password.old_password.data):
             hashed_password = bcrypt.generate_password_hash(form_password.new_password.data).decode('utf-8')
             current_user.password = hashed_password
             db.session.commit()
             flash(f'Account password updated successfully.', 'success')
-            # return redirect(url_for('login'))
-    elif request.method == 'GET':
-        form_account.username.data = current_user.username
-    profile_pic = url_for('static', filename='img/' + current_user.profile_pic)
+        else:
+            flash('An error occured when changing the password, please try again.', 'danger')
+    form_account.username.data = current_user.username
+    profile_pic = url_for('static', filename='img/profile_pics/' + current_user.profile_pic)
     return render_template('account.html', title='Account', 
-                            profile_pic=profile_pic, form_account=form_account,
+                            profile_pic=profile_pic,
+                            accordion_account_open = accordion_account_open,
+                            accordion_password_open = accordion_password_open,
+                            form_account=form_account,
                             form_password=form_password)
 
 

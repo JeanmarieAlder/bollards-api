@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileRequired
+from flask_wtf.file import FileAllowed, FileRequired, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField, MultipleFileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField
 from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
 
 from bollards_api.models import User
@@ -41,6 +41,7 @@ class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
                             validators=[DataRequired(), Length(min=3, max=25)])
 
+    profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit_account = SubmitField('Update')
 
     def validate_username(self, username):

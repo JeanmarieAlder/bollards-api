@@ -143,3 +143,8 @@ dmypy.json
 cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+
+# image folder
+/bollards_api/static/img/profile_pics/*
+!bollards_api/static/img/profile_pics/default_profile.jpeg

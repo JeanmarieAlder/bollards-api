@@ -71,3 +71,9 @@ body {
 .form-group{
   padding: 4px;
 }
+
+.profile-pic{
+  width: 150px;
+  height: 150px;
+  border-radius: 50px;
+}
