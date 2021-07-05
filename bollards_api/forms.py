@@ -67,7 +67,7 @@ class BollardForm(FlaskForm):
     number = StringField('Bollard No',
                             validators=[DataRequired(), Length(min=1, max=10)])
     
-    name = StringField('Name',
+    b_name = StringField('Name',
                             validators=[Length(max=100)])
 
     comment = TextAreaField('Comment')

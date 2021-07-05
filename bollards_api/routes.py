@@ -156,6 +156,7 @@ def register():
 
 @app.route('/list')
 def list_bollards():
+    bollards = Bollard.query.all()
     return render_template('list.html', title='List', bollards=bollards)
 
 @app.route('/manage')
@@ -168,6 +169,11 @@ def manage():
 def add():
     form = BollardForm()
     if form.validate_on_submit():
+        picture_file = "thenamelol.jpeg"
+        new_bollard = Bollard(number=form.number.data, b_name=form.b_name.data,
+                                comment=form.comment.data, image_file=picture_file)
+        db.session.add(new_bollard)
+        db.session.commit()
         flash(f'Bollard No {form.number.data} Created', 'success')
         return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)
