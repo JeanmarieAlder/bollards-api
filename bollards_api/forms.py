@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
 
 from bollards_api.models import User
@@ -70,10 +70,10 @@ class BollardForm(FlaskForm):
     name = StringField('Name',
                             validators=[Length(max=100)])
 
-    comment = StringField('Comment')
+    comment = TextAreaField('Comment')
 
-    main_image = FileField('Main Image', validators=[FileRequired()])
+    main_image = FileField('Main Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
 
     images = MultipleFileField('Other Images')
 
-    submit = SubmitField('Submit')
+    submit = SubmitField('Add Bollard')

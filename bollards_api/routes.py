@@ -168,6 +168,6 @@ def manage():
 def add():
     form = BollardForm()
     if form.validate_on_submit():
-        flash(f'Bollard {form.number.data} Created', 'success')
+        flash(f'Bollard No {form.number.data} Created', 'success')
         return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)

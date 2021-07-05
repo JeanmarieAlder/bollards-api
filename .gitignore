@@ -148,3 +148,6 @@ cython_debug/
 # image folder
 /bollards_api/static/img/profile_pics/*
 !bollards_api/static/img/profile_pics/default_profile.jpeg
+
+/bollards_api/static/img/bollards/*
+!/bollards_api/static/img/bollards/default_bollard.jpeg

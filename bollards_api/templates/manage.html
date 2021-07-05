@@ -52,12 +52,23 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.main_image.label(class="form-control-label") }}
-                    <div class="form-group">
-                        {{ form.main_image }}
-                    </div>
-                   
-                  </div>
+                    {{ form.main_image.label() }} <br/>
+                    {{ form.main_image(class="form-control-file") }}
+                    {% if form.main_image.errors %}
+                        {% for error in form.main_image.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.images.label() }} <br/>
+                    {{ form.images(class="form-control-file dropzone") }}
+                    {% if form.images.errors %}
+                        {% for error in form.images.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <div class="form-group">
                     {{ form.submit(class="btn btn-outline-info") }}
                 </div>
