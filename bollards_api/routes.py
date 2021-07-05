@@ -98,7 +98,7 @@ def save_picture(new_picture, folder_path):
 
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
-def account():
+def account(): 
     form_account = UpdateAccountForm()
     form_password = UpdateAccountPasswordForm()
     form_account_submitted = form_account.submit_account.data
