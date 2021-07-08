@@ -74,6 +74,6 @@ class BollardForm(FlaskForm):
 
     main_image = FileField('Main Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
 
-    images = MultipleFileField('Other Images')
+    images = MultipleFileField('Other Images', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
 
     submit = SubmitField('Add Bollard')

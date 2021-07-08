@@ -151,3 +151,6 @@ cython_debug/
 
 /bollards_api/static/img/bollards/*
 !/bollards_api/static/img/bollards/default_bollard.jpeg
+
+/bollards_api/static/img/bollards_icon/*
+!/bollards_api/static/img/bollards_icon/default_bollard.jpeg

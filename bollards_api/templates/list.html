@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Bollards List</h1>
-  <table style="border: 1px solid black;">
-      <tr style="border: 1px solid black;">
-        <th style="border: 1px solid black;">Number</th>
-        <th style="border: 1px solid black;">Name</th>
-        <th style="border: 1px solid black;">Comment</th>
-        <th style="border: 1px solid black;">Edit</th>
-        <th style="border: 1px solid black;">Delete</th>
+  <table class="table">
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Number</th>
+        <th scope="col">Name</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
       </tr>
       {% for bollard in bollards %}
-        <tr style="border: 1px solid black;">
-          <td style="border: 1px solid black;"><b>Bollard No {{bollard.number}}</b></td>
-          <td style="border: 1px solid black;">{{bollard.name}}</td>
-          <td style="border: 1px solid black;">{{bollard.comment}}</td>
-          <td style="border: 1px solid black;"><button>Edit</button></td>
-          <td style="border: 1px solid black;"><button>Delete</button></td>
+        <tr>
+          <td><img class="media-body profile-pic p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
+          <td style="vertical-align: middle;"><b>Bollard No {{bollard.number}}</b></td>
+          <td>{{bollard.b_name}}</td>
+          <td>{{bollard.comment}}</td>
+          <td><button class="btn btn-primary">Edit</button></td>
+          <td><button class="btn btn-danger">Delete</button></td>
         </tr>
         
       {% endfor %}

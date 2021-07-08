@@ -72,9 +72,17 @@ def crop_max_square(pil_img):
 
 
 def save_picture(new_picture, folder_path):
+    random_hex = secrets.token_hex(8)
+    _, file_ext = os.path.splitext(new_picture.filename)
+    picture_filename = random_hex + file_ext
+    picture_path = os.path.join(app.root_path, 'static', 'img', 
+                                    folder_path, picture_filename)
+    i = Image.open(new_picture)
+    i.save(picture_path)
+    return picture_filename
 
-    fixed_square_size = 150
 
+def crop_save_picture(new_picture, folder_path, fixed_square_size):
     random_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(new_picture.filename)
     picture_filename = random_hex + file_ext
@@ -96,6 +104,20 @@ def save_picture(new_picture, folder_path):
     i.save(picture_path)
     return picture_filename
 
+
+def save_picture_profile(new_picture):
+    fixed_square_size = 150
+    folder_path = 'profile_pics'
+    return crop_save_picture(new_picture, folder_path, fixed_square_size)
+
+# Saves the icon format as well as the full picture
+def save_picture_bollard(new_picture):
+    fixed_square_size = 250
+    folder_path_icon = 'bollards_icon'
+    folder_path = 'bollards'
+    return crop_save_picture(new_picture, folder_path_icon, fixed_square_size), save_picture(new_picture, folder_path)
+
+
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account(): 
@@ -115,7 +137,7 @@ def account():
     # Check which form has been submitted, to make it work, submit buttons must have different names.
     if form_account_submitted and form_account.validate_on_submit():
         if form_account.profile_pic.data:
-            picture_file = save_picture(form_account.profile_pic.data, 'profile_pics')
+            picture_file = save_picture_profile(form_account.profile_pic.data)
             print(picture_file)
             current_user.profile_pic = picture_file
         current_user.username = form_account.username.data
@@ -169,9 +191,15 @@ def manage():
 def add():
     form = BollardForm()
     if form.validate_on_submit():
-        picture_file = "thenamelol.jpeg"
         new_bollard = Bollard(number=form.number.data, b_name=form.b_name.data,
-                                comment=form.comment.data, image_file=picture_file)
+                                comment=form.comment.data)
+        if form.main_image.data:
+            picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
+            print(picture_file_icon)
+            print(picture_file)
+            new_bollard.image_icon = picture_file_icon
+            new_bollard.main_image = picture_file
+        
         db.session.add(new_bollard)
         db.session.commit()
         flash(f'Bollard No {form.number.data} Created', 'success')

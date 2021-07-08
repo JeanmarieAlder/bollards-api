@@ -21,9 +21,10 @@ class Bollard(db.Model):
     number = db.Column(db.String(10), unique=True, nullable=False)
     b_name = db.Column(db.String(50))
     comment = db.Column(db.Text())
-    image_file = db.Column(db.String(20), nullable=False, default='default_bollard.jpeg')
+    image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
+    main_image = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Bollard('{self.number}', '{self.b_name}', '{self.comment}', '{self.image_file}')"
+        return f"Bollard('{self.number}', '{self.b_name}', '{self.comment}', '{self.image_icon}', '{self.main_image}')"
