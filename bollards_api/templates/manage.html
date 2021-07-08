@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if title == 'Add' %}
-    <h1>New Bollard</h1>
-    {% else %}
-    <h1>Manage Bollard</h1>
-    {% endif %}
+    <div class="row">
+        {% if title == 'Add' %}
+            <h1>New Bollard</h1>
+        {% else %}
+            <div class="col-sm">
+                <h1>Manage Bollard</h1>
+            </div>
+            <div class="col-sm">
+                <div class="float-right">
+                    <img class="media-body profile-pic float-right" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}">
+                </div>
+                
+            </div>
+        {% endif %}
+    </div>
+    
     <div>
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}

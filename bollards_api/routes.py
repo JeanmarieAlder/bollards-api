@@ -1,3 +1,4 @@
+from datetime import datetime
 import secrets
 import os
 from PIL import Image
@@ -181,10 +182,31 @@ def list_bollards():
     bollards = Bollard.query.all()
     return render_template('list.html', title='List', bollards=bollards)
 
-@app.route('/manage')
-def manage():
+@app.route('/manage/<int:bollard_id>', methods=['GET', 'POST'])
+@login_required
+def manage(bollard_id):
     form = BollardForm()
-    return render_template('manage.html', title='Manage', form=form)
+    bollard = Bollard.query.filter_by(id=bollard_id).first()
+    if form.validate_on_submit():
+        bollard.number = form.number.data
+        bollard.b_name = form.b_name.data
+        bollard.comment = form.comment.data
+        bollard.date_updated = datetime.utcnow()
+        if form.main_image.data:
+            picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
+            print(picture_file_icon)
+            print(picture_file)
+            bollard.image_icon = picture_file_icon
+            bollard.main_image = picture_file
+
+        db.session.commit()
+        flash(f'Bollard No {form.number.data} has been updated')
+        return redirect(url_for('list_bollards'))
+    
+    form.number.data = bollard.number
+    form.b_name.data = bollard.b_name
+    form.comment.data = bollard.comment
+    return render_template('manage.html', title='Manage', bollard=bollard, form=form)
 
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -205,3 +227,4 @@ def add():
         flash(f'Bollard No {form.number.data} Created', 'success')
         return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)
+
