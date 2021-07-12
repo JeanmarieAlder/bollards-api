@@ -13,7 +13,7 @@ The project db migration has been initiated with:
 ```bash
 flask db init
 ```
-To create the first migration file, make sure you have deleted any existing sqlite db on the project and use:
+(To create the first migration file, make sure you have deleted any existing sqlite db on the project and use):
 ```bash
 DATABASE_URL=sqlite:/// flask db migrate
 ```

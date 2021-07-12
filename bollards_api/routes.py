@@ -150,6 +150,7 @@ def account():
         if existing_user and bcrypt.check_password_hash(existing_user.password, form_password.old_password.data):
             hashed_password = bcrypt.generate_password_hash(form_password.new_password.data).decode('utf-8')
             current_user.password = hashed_password
+            current_user.date_updated = datetime.utcnow()
             db.session.commit()
             flash(f'Account password updated successfully.', 'success')
         else:
