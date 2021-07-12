@@ -142,6 +142,7 @@ def account():
             print(picture_file)
             current_user.profile_pic = picture_file
         current_user.username = form_account.username.data
+        current_user.date_updated = datetime.utcnow()
         db.session.commit()
         flash(f'Accound updated, your username is now {form_account.username.data}.', 'success')
     elif form_password_submitted and form_password.validate_on_submit():
