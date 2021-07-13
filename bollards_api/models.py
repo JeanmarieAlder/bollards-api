@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from sqlalchemy.orm import relationship
 from bollards_api import db, login_manager
 from flask_login import UserMixin
 
@@ -17,6 +19,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}')"
 
+
 class Bollard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.String(10), unique=True, nullable=False)
@@ -24,8 +27,17 @@ class Bollard(db.Model):
     comment = db.Column(db.Text())
     image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
     main_image = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
+
+    images = db.relationship("Bimage", backref='bollard', lazy=True)
+
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Bollard('{self.number}', '{self.b_name}', '{self.comment}', '{self.image_icon}', '{self.main_image}')"
+
+
+class Bimage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uri = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
+    bollard_id = db.Column(db.Integer, db.ForeignKey('bollard.id'), nullable=False)

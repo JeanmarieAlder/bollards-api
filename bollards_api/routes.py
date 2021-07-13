@@ -188,7 +188,7 @@ def list_bollards():
 @login_required
 def manage(bollard_id):
     form = BollardForm()
-    bollard = Bollard.query.filter_by(id=bollard_id).first()
+    bollard = Bollard.query.filter_by(id=bollard_id).first_or_404()
     if form.validate_on_submit():
         bollard.number = form.number.data
         bollard.b_name = form.b_name.data
@@ -202,7 +202,7 @@ def manage(bollard_id):
             bollard.main_image = picture_file
 
         db.session.commit()
-        flash(f'Bollard No {form.number.data} has been updated')
+        flash(f'Bollard No {form.number.data} has been updated', 'success')
         return redirect(url_for('list_bollards'))
     
     form.number.data = bollard.number
@@ -210,23 +210,38 @@ def manage(bollard_id):
     form.comment.data = bollard.comment
     return render_template('manage.html', title='Manage', bollard=bollard, form=form)
 
+
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
     form = BollardForm()
     if form.validate_on_submit():
-        new_bollard = Bollard(number=form.number.data, b_name=form.b_name.data,
-                                comment=form.comment.data)
-        if form.main_image.data:
-            picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
-            print(picture_file_icon)
-            print(picture_file)
-            new_bollard.image_icon = picture_file_icon
-            new_bollard.main_image = picture_file
-        
-        db.session.add(new_bollard)
-        db.session.commit()
-        flash(f'Bollard No {form.number.data} Created', 'success')
-        return redirect(url_for('list_bollards'))
+        if Bollard.query.filter_by(number=form.number.data).first():
+            flash(f'Bollard No {form.number.data} allready exists', 'danger')
+        else:
+            new_bollard = Bollard(number=form.number.data, b_name=form.b_name.data,
+                                    comment=form.comment.data)
+            if form.main_image.data:
+                print(form.main_image.data)
+                print(form.images.data[0])
+                picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
+                print(picture_file_icon)
+                print(picture_file)
+                new_bollard.image_icon = picture_file_icon
+                new_bollard.main_image = picture_file
+            
+            db.session.add(new_bollard)
+            db.session.commit()
+            flash(f'Bollard No {form.number.data} Created', 'success')
+            return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)
 
+
+@app.route('/delete/<int:bollard_id>', methods=['POST'])
+@login_required
+def delete_bollard(bollard_id):
+    bollard = Bollard.query.filter_by(id=bollard_id).first_or_404()
+    db.session.delete(bollard)
+    db.session.commit()
+    flash('Bollard deleted successfully.', 'info')
+    return redirect(url_for('list_bollards'))

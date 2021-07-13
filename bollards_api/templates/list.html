@@ -17,10 +17,32 @@
           <td>{{bollard.b_name}}</td>
           <td>{{bollard.comment}}</td>
           <td><a href="{{ url_for('manage', bollard_id=bollard.id) }}"><button class="btn btn-primary">Edit</button></a></td>
-          <td><button class="btn btn-danger">Delete</button></td>
+          <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{bollard.id}}">Delete</button></td>
         </tr>
-        
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal-{{bollard.id}}" tabindex="-1" aria-labelledby="deleteModal-{{bollard.id}}Label" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModal-{{bollard.id}}Label">Delete Bollard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Ok, do you really want to delete this bollard?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('delete_bollard', bollard_id=bollard.id) }}" method="POST">
+                  <input id="btn-modal-delete" type="submit" class="btn btn-danger" value="Delete">
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        </div>
       {% endfor %}
-      </tr>
     </table>
+
+    
   {% endblock content %}
