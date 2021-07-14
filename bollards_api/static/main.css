@@ -97,3 +97,5 @@ body {
 .bollard-list-add-button {
   float: right;
 }
+
+#bollardmap { height: 250px; }

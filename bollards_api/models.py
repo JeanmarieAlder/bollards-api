@@ -25,6 +25,8 @@ class Bollard(db.Model):
     b_number = db.Column(db.String(10), unique=True, nullable=False)
     b_name = db.Column(db.String(50))
     comment = db.Column(db.Text())
+    b_lat = db.Column(db.Numeric(8,5), nullable=False, default=46.64692)
+    b_lng = db.Column(db.Numeric(8,5), nullable=False, default=6.28342)
     image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
     main_image = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
 

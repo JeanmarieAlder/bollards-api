@@ -185,7 +185,8 @@ def manage(bollard_id):
     form.b_number.data = bollard.b_number
     form.b_name.data = bollard.b_name
     form.comment.data = bollard.comment
-    return render_template('manage.html', title='Manage', bollard=bollard, form=form)
+    return render_template('manage.html', title='Manage', bollard=bollard, form=form,
+        has_map=True)
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -197,7 +198,8 @@ def add():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
             new_bollard = Bollard(b_number=form.b_number.data, b_name=form.b_name.data,
-                                    comment=form.comment.data)
+                                    comment=form.comment.data, b_lat=form.b_lat.data,
+                                    b_lng=form.b_lng.data)
             if form.main_image.data:
                 print(form.main_image.data)
                 print(form.images.data[0])
@@ -211,7 +213,7 @@ def add():
             db.session.commit()
             flash(f'Bollard No {form.b_number.data} Created', 'success')
             return redirect(url_for('list_bollards'))
-    return render_template('manage.html', title='Add', form=form)
+    return render_template('manage.html', title='Add', form=form, has_map=True)
 
 
 @app.route('/delete/<int:bollard_id>', methods=['POST'])
