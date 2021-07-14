@@ -2,7 +2,7 @@
 {% block content %}
     <div class="row">
         {% if title == 'Add' %}
-            <h1>New Bollard</h1>
+            <h1 style="float: left;">New Bollard</h1>
         {% else %}
             <div class="col-sm">
                 <h1>Manage Bollard</h1>
@@ -21,17 +21,17 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <div class="form-group">
-                    {{ form.number.label(class="form-control-label") }}
+                    {{ form.b_number.label(class="form-control-label") }}
 
-                    {% if form.number.errors %}
-                        {{ form.number(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                    {% if form.b_number.errors %}
+                        {{ form.b_number(class="form-control form-control-lg is-invalid", autocomplete="off") }}
                         <div class="invalid-feedback">
-                            {% for error in form.number.errors %}
+                            {% for error in form.b_number.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.number(class="form-control form-control-lg", autocomplete="off") }}
+                        {{ form.b_number(class="form-control form-control-lg", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="form-group">

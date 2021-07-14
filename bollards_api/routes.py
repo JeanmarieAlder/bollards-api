@@ -8,29 +8,6 @@ from bollards_api.models import User, Bollard
 from bollards_api.forms import LoginForm, BollardForm, RegisterForm, UpdateAccountForm, UpdateAccountPasswordForm
 from flask_login import login_user, logout_user , current_user, login_required
 
-bollards = [
-    {
-        "number": "1",
-        "name": "Vitiau",
-        "comment": "This is the first comment of the bollard. Please like, subscribe and share",
-        "dateAdded": "date",
-        "dateUpdated": "date"
-    },
-    {
-        "number": "2",
-        "name": "lol",
-        "comment": "This is the second comment of the bollard. Please like, subscribe and share",
-        "dateAdded": "date",
-        "dateUpdated": "date"
-    },
-    {
-        "number": "3",
-        "name": "betty",
-        "comment": "This is the third comment of the bollard. Please like, subscribe and share OMG",
-        "dateAdded": "date",
-        "dateUpdated": "date"
-    }
-]
 
 @app.route('/')
 @app.route('/home')
@@ -190,7 +167,7 @@ def manage(bollard_id):
     form = BollardForm()
     bollard = Bollard.query.filter_by(id=bollard_id).first_or_404()
     if form.validate_on_submit():
-        bollard.number = form.number.data
+        bollard.b_number = form.b_number.data
         bollard.b_name = form.b_name.data
         bollard.comment = form.comment.data
         bollard.date_updated = datetime.utcnow()
@@ -202,10 +179,10 @@ def manage(bollard_id):
             bollard.main_image = picture_file
 
         db.session.commit()
-        flash(f'Bollard No {form.number.data} has been updated', 'success')
+        flash(f'Bollard No {form.b_number.data} has been updated', 'success')
         return redirect(url_for('list_bollards'))
     
-    form.number.data = bollard.number
+    form.b_number.data = bollard.b_number
     form.b_name.data = bollard.b_name
     form.comment.data = bollard.comment
     return render_template('manage.html', title='Manage', bollard=bollard, form=form)
@@ -216,10 +193,10 @@ def manage(bollard_id):
 def add():
     form = BollardForm()
     if form.validate_on_submit():
-        if Bollard.query.filter_by(number=form.number.data).first():
-            flash(f'Bollard No {form.number.data} allready exists', 'danger')
+        if Bollard.query.filter_by(b_number=form.b_number.data).first():
+            flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
-            new_bollard = Bollard(number=form.number.data, b_name=form.b_name.data,
+            new_bollard = Bollard(b_number=form.b_number.data, b_name=form.b_name.data,
                                     comment=form.comment.data)
             if form.main_image.data:
                 print(form.main_image.data)
@@ -232,7 +209,7 @@ def add():
             
             db.session.add(new_bollard)
             db.session.commit()
-            flash(f'Bollard No {form.number.data} Created', 'success')
+            flash(f'Bollard No {form.b_number.data} Created', 'success')
             return redirect(url_for('list_bollards'))
     return render_template('manage.html', title='Add', form=form)
 

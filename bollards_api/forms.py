@@ -64,7 +64,7 @@ class UpdateAccountPasswordForm(FlaskForm):
 
 
 class BollardForm(FlaskForm):
-    number = StringField('Bollard No',
+    b_number = StringField('Bollard No',
                             validators=[DataRequired(), Length(min=1, max=10)])
     
     b_name = StringField('Name',

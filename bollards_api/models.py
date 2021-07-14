@@ -22,7 +22,7 @@ class User(db.Model, UserMixin):
 
 class Bollard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.String(10), unique=True, nullable=False)
+    b_number = db.Column(db.String(10), unique=True, nullable=False)
     b_name = db.Column(db.String(50))
     comment = db.Column(db.Text())
     image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
@@ -34,7 +34,7 @@ class Bollard(db.Model):
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Bollard('{self.number}', '{self.b_name}', '{self.comment}', '{self.image_icon}', '{self.main_image}')"
+        return f"Bollard('{self.b_number}', '{self.b_name}', '{self.comment}', '{self.image_icon}', '{self.main_image}')"
 
 
 class Bimage(db.Model):

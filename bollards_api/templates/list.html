@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Bollards List</h1>
+  <div class="bollard-list-title-div">
+    <span class="bollard-list-title"><h1>Bollards List</h1></span>
+    <span class="bollard-list-add-button">
+      <a class="btn btn-success m-2" href="{{ url_for('add') }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+      </a>
+    </span>
+    
+  </div>
+  
   <table class="table">
       <tr>
         <th scope="col">Image</th>
@@ -13,7 +24,7 @@
       {% for bollard in bollards %}
         <tr>
           <td><img class="media-body profile-pic p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
-          <td style="vertical-align: middle;"><b>Bollard No {{bollard.number}}</b></td>
+          <td style="vertical-align: middle;"><b>Bollard No {{bollard.b_number}}</b></td>
           <td>{{bollard.b_name}}</td>
           <td>{{bollard.comment}}</td>
           <td><a href="{{ url_for('manage', bollard_id=bollard.id) }}"><button class="btn btn-primary">Edit</button></a></td>
