@@ -111,8 +111,12 @@
                         {% endfor %}
                     {% endif %}
                 </div>
+                <div>
+                    {{ form.zoom_level(id="last-zoom-level") }}
+                </div>
                 <div class="form-group">
-                    {{ form.submit(class="btn btn-outline-info") }}
+                    <span>{{ form.submit(class="btn btn-outline-success") }}</span>
+                    <span><button class="btn btn-outline-secondary btn-float-right">Cancel</button></span>
                 </div>
             </fieldset>
             
@@ -120,5 +124,5 @@
     </div>
 
     <!--Leaflet javascript file-->
-    <script src="{{url_for('static', filename='leaflet_map.js')}}"></script>
+    <script src="{{url_for('static', filename='leaflet_map.js')}}", ilat="{{ init_lat }}", ilng="{{ init_lng }}", izoom="{{ init_zoom }}", pagetype="{{ title }}"></script>
 {% endblock content %}

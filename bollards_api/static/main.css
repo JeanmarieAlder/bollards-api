@@ -98,4 +98,8 @@ body {
   float: right;
 }
 
-#bollardmap { height: 250px; }
+.btn-float-right {
+  float: right;
+}
+
+#bollardmap { height: 300px; }

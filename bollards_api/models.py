@@ -13,6 +13,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(25), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     profile_pic = db.Column(db.String(25), nullable=False, default='default_profile.jpeg')
+
+    last_lat = db.Column(db.Numeric(8,5), nullable=False, default=46.64692)
+    last_lon = db.Column(db.Numeric(8,5), nullable=False, default=6.28342)
+    last_zoom = db.Column(db.Integer, nullable=False, default=9)
+
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_modified = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 

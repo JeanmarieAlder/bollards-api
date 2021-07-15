@@ -3,6 +3,7 @@ import secrets
 import os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
+from flask_migrate import current
 from bollards_api import app, db, bcrypt
 from bollards_api.models import User, Bollard
 from bollards_api.forms import LoginForm, BollardForm, RegisterForm, UpdateAccountForm, UpdateAccountPasswordForm
@@ -170,6 +171,8 @@ def manage(bollard_id):
         bollard.b_number = form.b_number.data
         bollard.b_name = form.b_name.data
         bollard.comment = form.comment.data
+        bollard.b_lat = form.b_lat.data
+        bollard.b_lng = form.b_lng.data
         bollard.date_updated = datetime.utcnow()
         if form.main_image.data:
             picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
@@ -178,6 +181,9 @@ def manage(bollard_id):
             bollard.image_icon = picture_file_icon
             bollard.main_image = picture_file
 
+        current_user.last_lat = form.b_lat.data
+        current_user.last_lon = form.b_lng.data
+        current_user.last_zoom = form.zoom_level.data
         db.session.commit()
         flash(f'Bollard No {form.b_number.data} has been updated', 'success')
         return redirect(url_for('list_bollards'))
@@ -185,8 +191,10 @@ def manage(bollard_id):
     form.b_number.data = bollard.b_number
     form.b_name.data = bollard.b_name
     form.comment.data = bollard.comment
+    form.b_lat.data = bollard.b_lat
+    form.b_lng.data = bollard.b_lng
     return render_template('manage.html', title='Manage', bollard=bollard, form=form,
-        has_map=True)
+        has_map=True, init_lat=bollard.b_lat, init_lng=bollard.b_lng)
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -209,11 +217,16 @@ def add():
                 new_bollard.image_icon = picture_file_icon
                 new_bollard.main_image = picture_file
             
+            current_user.last_lat = form.b_lat.data
+            current_user.last_lon = form.b_lng.data
+            current_user.last_zoom = form.zoom_level.data
             db.session.add(new_bollard)
             db.session.commit()
             flash(f'Bollard No {form.b_number.data} Created', 'success')
             return redirect(url_for('list_bollards'))
-    return render_template('manage.html', title='Add', form=form, has_map=True)
+    return render_template('manage.html', title='Add', form=form, has_map=True,
+                init_lat=current_user.last_lat, init_lng=current_user.last_lon,
+                init_zoom=current_user.last_zoom)
 
 
 @app.route('/delete/<int:bollard_id>', methods=['POST'])
