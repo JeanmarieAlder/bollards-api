@@ -121,6 +121,27 @@
             </fieldset>
             
         </form>
+        <!--Delete images part (separated to have multiple form method Post)-->
+        {% if bollard and bollard.images[0] %}
+            <hr>
+            <h2 id="manage-pictures-section">Manage Pictures</h2>
+            <div class="row">
+                {% for img in bollard.images %}
+                    <div class="card m-1" style="width: 230px;">
+                        <img class="card-img-top with-bg-size" src="{{ url_for('static', filename='img/bollards/' + img.uri) }}" alt="{{ img.uri }}">
+                        <div class="card-body">
+                            <p class="card-title">{{ img.uri }}</p>
+                            <form action="{{ url_for('delete_image', bimage_id=img.id, bollard_id=bollard.id) }}" method="POST">
+                                
+                                <input id="btn-delete-{{ img.id }}" type="submit" class="btn btn-danger" value="Delete">
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            
+        {% endif %}
     </div>
 
     <!--Leaflet javascript file-->

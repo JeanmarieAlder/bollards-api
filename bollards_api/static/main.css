@@ -102,4 +102,16 @@ body {
   float: right;
 }
 
+.image-list-div {
+  display: block;
+}
+
+.with-bg-size {
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  /* Make the background image cover the area of the <div>, and clip the excess */
+  object-fit: cover;
+}
+
 #bollardmap { height: 300px; }

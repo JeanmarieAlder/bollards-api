@@ -200,7 +200,8 @@ def manage(bollard_id):
     form.b_lat.data = bollard.b_lat
     form.b_lng.data = bollard.b_lng
     return render_template('manage.html', title='Manage', bollard=bollard, form=form,
-        has_map=True, init_lat=bollard.b_lat, init_lng=bollard.b_lng)
+        has_map=True, init_lat=bollard.b_lat, init_lng=bollard.b_lng,
+        current_url=request.url)
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -252,3 +253,14 @@ def delete_bollard(bollard_id):
     db.session.commit()
     flash('Bollard deleted successfully.', 'info')
     return redirect(url_for('list_bollards'))
+
+
+@app.route('/delete/image/<int:bimage_id>/<int:bollard_id>', methods=['POST'])
+@login_required
+def delete_image(bimage_id, bollard_id):
+    bimage = Bimage.query.filter_by(id=bimage_id).first_or_404()
+    db.session.delete(bimage)
+    db.session.commit()
+    flash('Image deleted successfully.', 'info')
+    # Todo: find a way to redirect to image section
+    return redirect(url_for('manage', bollard_id=bollard_id)) 
