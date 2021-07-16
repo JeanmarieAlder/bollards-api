@@ -1,10 +1,10 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileRequired, FileField
-from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField, TextAreaField, DecimalField, HiddenField, IntegerField
-from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
-
 from bollards_api.models import User
+from flask_login import current_user
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed, FileField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField
+from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
+
 
 class LoginForm(FlaskForm):
     username = StringField('Username',
@@ -64,26 +64,3 @@ class UpdateAccountPasswordForm(FlaskForm):
                             validators=[DataRequired(), EqualTo('new_password')])
 
     submit_password = SubmitField('Update Password')
-
-
-class BollardForm(FlaskForm):
-    b_number = IntegerField('Bollard No',
-                            validators=[DataRequired()])
-
-    b_letter = StringField('Letter', validators=[Length(max=3)])
-    
-    b_name = StringField('Name',
-                            validators=[Length(max=100)])
-
-    comment = TextAreaField('Comment')
-
-    b_lat = DecimalField('Latitude', places=8, default=46.64692)
-    b_lng = DecimalField('Longitude', places=8, default=6.28342)
-
-    main_image = FileField('Main Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
-
-    images = MultipleFileField('Other Images', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
-
-    zoom_level = HiddenField("Zoom Level", default=9)
-
-    submit = SubmitField('Submit Bollard')

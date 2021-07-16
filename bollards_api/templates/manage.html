@@ -147,7 +147,7 @@
                         <img class="card-img-top with-bg-size" src="{{ url_for('static', filename='img/bollards/' + img.uri) }}" alt="{{ img.uri }}">
                         <div class="card-body">
                             <p class="card-title">{{ img.uri }}</p>
-                            <form action="{{ url_for('delete_image', bimage_id=img.id, bollard_id=bollard.id) }}" method="POST">
+                            <form action="{{ url_for('bollards.delete_image', bimage_id=img.id, bollard_id=bollard.id) }}" method="POST">
                                 
                                 <input id="btn-delete-{{ img.id }}" type="submit" class="btn btn-danger" value="Delete">
                             </form>

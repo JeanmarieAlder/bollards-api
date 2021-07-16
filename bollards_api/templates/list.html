@@ -9,14 +9,14 @@
         </a>
       
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='nasc') }}">No Ascending</a></li>
-          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='ndesc') }}">No Descending</a></li>
-          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='latest') }}">Recently Updated</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('bollards.list_bollards', page=1, sort='nasc') }}">No Ascending</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('bollards.list_bollards', page=1, sort='ndesc') }}">No Descending</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('bollards.list_bollards', page=1, sort='latest') }}">Recently Updated</a></li>
         </ul>
       </div>
     </span>
     <span style="display: inline-block;">
-      <a class="btn btn-success m-2" href="{{ url_for('add') }}">
+      <a class="btn btn-success m-2" href="{{ url_for('bollards.add') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
         </svg>
@@ -39,7 +39,7 @@
           <td style="vertical-align: middle;"><b>Bollard No {{bollard.b_number}}{{ bollard.b_letter }}</b></td>
           <td>{{bollard.b_name}}</td>
           <td>{{bollard.comment}}</td>
-          <td><a href="{{ url_for('manage', bollard_id=bollard.id) }}"><button class="btn btn-primary">Edit</button></a></td>
+          <td><a href="{{ url_for('bollards.manage', bollard_id=bollard.id) }}"><button class="btn btn-primary">Edit</button></a></td>
           <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{bollard.id}}">Delete</button></td>
         </tr>
 
@@ -56,7 +56,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="{{ url_for('delete_bollard', bollard_id=bollard.id) }}" method="POST">
+                <form action="{{ url_for('bollards.delete_bollard', bollard_id=bollard.id) }}" method="POST">
                   <input id="btn-modal-delete" type="submit" class="btn btn-danger" value="Delete">
                 </form>
                 
@@ -69,9 +69,9 @@
     {% for page_num in bollards.iter_pages() %}
       {% if page_num %}
         {% if bollards.page == page_num %}
-          <a class="btn btn-success mb-4" href="{{ url_for('list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
+          <a class="btn btn-success mb-4" href="{{ url_for('bollards.list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-success mb-4" href="{{ url_for('list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-success mb-4" href="{{ url_for('bollards.list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...
