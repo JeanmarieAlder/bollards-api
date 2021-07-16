@@ -5,6 +5,8 @@
 Make sure the following env variables are set:
 - FLASK_APP
 - FLASK_DEBUG (optional, do not use in production)
+- DATABASE_URL
+- REGISTRATION_SECRET_PHRASE
 
 
 ## Flask Migrate setup:

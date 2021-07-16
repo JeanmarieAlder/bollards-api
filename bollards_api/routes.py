@@ -149,12 +149,15 @@ def register():
         return redirect(url_for('home'))
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash(f'Account created. Welcome {form.username.data}. Please log in.', 'success')
-        return redirect(url_for('login'))
+        if bcrypt.check_password_hash(os.environ['REGISTRATION_SECRET_PHRASE'], form.secret_phrase.data):
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            new_user = User(username=form.username.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f'Account created. Welcome {form.username.data}. Please log in.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Account creation is limited. Please contact the author for specific access', 'warning')
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/list')

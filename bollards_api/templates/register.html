@@ -48,11 +48,25 @@
                 {% endif %}
             </div>
             <div class="form-group">
+                {{ form.secret_phrase.label(class="form-control-label") }}
+
+                {% if form.secret_phrase.errors %}
+                    {{ form.secret_phrase(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.secret_phrase.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.secret_phrase(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </fieldset>
         
     </form>
-    <p><i>Note: To get editing permissions, contact me at wakxy13@gmail.com</i></p>
+    <p><i>Note: To get editing permissions, contact the author.</i></p>
 </div>
 {% endblock content %}
