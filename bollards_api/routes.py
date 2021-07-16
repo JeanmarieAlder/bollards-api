@@ -5,7 +5,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flask_migrate import current
 from bollards_api import app, db, bcrypt
-from bollards_api.models import User, Bollard
+from bollards_api.models import Bimage, User, Bollard
 from bollards_api.forms import LoginForm, BollardForm, RegisterForm, UpdateAccountForm, UpdateAccountPasswordForm
 from flask_login import login_user, logout_user , current_user, login_required
 
@@ -205,6 +205,8 @@ def add():
         if Bollard.query.filter_by(b_number=form.b_number.data).first():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
+            # for fs in form.images.data:
+            #    print(fs.filename)
             new_bollard = Bollard(b_number=form.b_number.data, b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data)
@@ -217,6 +219,13 @@ def add():
                 new_bollard.image_icon = picture_file_icon
                 new_bollard.main_image = picture_file
             
+            # fs = FileStorage
+            for fs in form.images.data:
+                if fs.filename != '':
+                    picture_file = save_picture(new_picture=fs, folder_path='bollards')
+                    new_bimage = Bimage(uri=picture_file)
+                    new_bollard.images.append(new_bimage)
+
             current_user.last_lat = form.b_lat.data
             current_user.last_lon = form.b_lng.data
             current_user.last_zoom = form.zoom_level.data

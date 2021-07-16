@@ -47,4 +47,7 @@ class Bollard(db.Model):
 class Bimage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uri = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
-    bollard_id = db.Column(db.Integer, db.ForeignKey('bollard.id'), nullable=False)
+    bollard_id = db.Column(db.Integer, db.ForeignKey('bollard.id'))
+
+    def __repr__(self):
+        return f"Bimage('{self.uri}', '{self.bollard_id}')"
