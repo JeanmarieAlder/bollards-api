@@ -87,7 +87,7 @@ body {
 }
 
 .bollard-list-title-div {
-  overflow: hidden;
+  text-align: right;
 }
 
 .bollard-list-title {

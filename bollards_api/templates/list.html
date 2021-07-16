@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="bollard-list-title-div">
-    <span class="bollard-list-title"><h1>Bollards List</h1></span>
-    <span class="btn-float-right">
+    <span class="bollard-list-title"><h1 class="m-2">Bollards List</h1></span>
+    <span style="display: inline-block;">
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle p-2" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          Sort by
+        </a>
+      
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='nasc') }}">No Ascending</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='ndesc') }}">No Descending</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('list_bollards', page=1, sort='latest') }}">Recently Updated</a></li>
+        </ul>
+      </div>
+    </span>
+    <span style="display: inline-block;">
       <a class="btn btn-success m-2" href="{{ url_for('add') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
         </svg>
       </a>
     </span>
-    
   </div>
   
   <table class="table">
@@ -21,7 +33,7 @@
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
       </tr>
-      {% for bollard in bollards %}
+      {% for bollard in bollards.items %}
         <tr>
           <td><img class="media-body profile-pic p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
           <td style="vertical-align: middle;"><b>Bollard No {{bollard.b_number}}{{ bollard.b_letter }}</b></td>
@@ -54,6 +66,17 @@
         </div>
       {% endfor %}
     </table>
+    {% for page_num in bollards.iter_pages() %}
+      {% if page_num %}
+        {% if bollards.page == page_num %}
+          <a class="btn btn-success mb-4" href="{{ url_for('list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-success mb-4" href="{{ url_for('list_bollards', page=page_num, sort=sort_method) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
 
     
   {% endblock content %}

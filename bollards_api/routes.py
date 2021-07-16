@@ -159,8 +159,18 @@ def register():
 
 @app.route('/list')
 def list_bollards():
-    bollards = Bollard.query.order_by(Bollard.b_number, Bollard.b_letter).all()
-    return render_template('list.html', title='List', bollards=bollards)
+    page = request.args.get('page', 1, type=int)
+    sort_method = request.args.get('sort', 'latest', type=str)
+    if sort_method == 'ndesc':
+        bollards = Bollard.query.order_by(Bollard.b_number.desc(), 
+                    Bollard.b_letter.desc()).paginate(page=page, per_page=30)
+    elif sort_method == 'nasc':
+        bollards = Bollard.query.order_by(Bollard.b_number, 
+                    Bollard.b_letter).paginate(page=page, per_page=30)
+    else:
+        bollards = Bollard.query.order_by(Bollard.date_updated.desc()).paginate(page=page, per_page=30)
+    return render_template('list.html', title='List', bollards=bollards,
+                    sort_method=sort_method)
 
 @app.route('/manage/<int:bollard_id>', methods=['GET', 'POST'])
 @login_required
@@ -169,6 +179,7 @@ def manage(bollard_id):
     bollard = Bollard.query.filter_by(id=bollard_id).first_or_404()
     if form.validate_on_submit():
         bollard.b_number = form.b_number.data
+        bollard.b_letter = form.b_letter.data
         bollard.b_name = form.b_name.data
         bollard.comment = form.comment.data
         bollard.b_lat = form.b_lat.data
