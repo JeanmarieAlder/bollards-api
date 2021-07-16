@@ -149,6 +149,7 @@ def register():
         return redirect(url_for('home'))
     form = RegisterForm()
     if form.validate_on_submit():
+        # Secret phrase is needed to create a new account
         if bcrypt.check_password_hash(os.environ['REGISTRATION_SECRET_PHRASE'], form.secret_phrase.data):
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             new_user = User(username=form.username.data, password=hashed_password)
