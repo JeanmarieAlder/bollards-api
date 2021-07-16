@@ -159,7 +159,7 @@ def register():
 
 @app.route('/list')
 def list_bollards():
-    bollards = Bollard.query.all()
+    bollards = Bollard.query.order_by(Bollard.b_number, Bollard.b_letter).all()
     return render_template('list.html', title='List', bollards=bollards)
 
 @app.route('/manage/<int:bollard_id>', methods=['GET', 'POST'])
@@ -209,12 +209,15 @@ def manage(bollard_id):
 def add():
     form = BollardForm()
     if form.validate_on_submit():
-        if Bollard.query.filter_by(b_number=form.b_number.data).first():
+        if Bollard.query.filter_by(b_number=form.b_number.data, 
+                            b_letter=form.b_letter.data.upper()).first():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
             # for fs in form.images.data:
             #    print(fs.filename)
-            new_bollard = Bollard(b_number=form.b_number.data, b_name=form.b_name.data,
+            new_bollard = Bollard(b_number=form.b_number.data,
+                                    b_letter=form.b_letter.data.upper(), 
+                                    b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data)
             if form.main_image.data:

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField, TextAreaField, DecimalField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, MultipleFileField, TextAreaField, DecimalField, HiddenField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
 
 from bollards_api.models import User
@@ -64,8 +64,10 @@ class UpdateAccountPasswordForm(FlaskForm):
 
 
 class BollardForm(FlaskForm):
-    b_number = StringField('Bollard No',
-                            validators=[DataRequired(), Length(min=1, max=10)])
+    b_number = IntegerField('Bollard No',
+                            validators=[DataRequired()])
+
+    b_letter = StringField('Letter', validators=[Length(max=3)])
     
     b_name = StringField('Name',
                             validators=[Length(max=100)])
