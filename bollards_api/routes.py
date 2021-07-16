@@ -180,7 +180,13 @@ def manage(bollard_id):
             print(picture_file)
             bollard.image_icon = picture_file_icon
             bollard.main_image = picture_file
-
+        
+        # fs is a FileStorage type
+        if form.images.data[0].filename != '':
+            for fs in form.images.data:    
+                picture_file = save_picture(new_picture=fs, folder_path='bollards')
+                new_bimage = Bimage(uri=picture_file)
+                bollard.images.append(new_bimage)
         current_user.last_lat = form.b_lat.data
         current_user.last_lon = form.b_lng.data
         current_user.last_zoom = form.zoom_level.data
@@ -219,7 +225,7 @@ def add():
                 new_bollard.image_icon = picture_file_icon
                 new_bollard.main_image = picture_file
             
-            # fs = FileStorage
+            # fs is a FileStorage type
             for fs in form.images.data:
                 if fs.filename != '':
                     picture_file = save_picture(new_picture=fs, folder_path='bollards')
