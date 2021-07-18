@@ -25,9 +25,11 @@ def create_app(config_class=Config):
     from bollards_api.main.routes import main
     from bollards_api.users.routes import users
     from bollards_api.bollards.routes import bollards
+    from bollards_api.errors.handlers import errors
 
     app.register_blueprint(main)
     app.register_blueprint(users)
     app.register_blueprint(bollards)
+    app.register_blueprint(errors)
 
     return app

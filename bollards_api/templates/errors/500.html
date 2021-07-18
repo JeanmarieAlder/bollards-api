@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>500, Something went wrond and we're really sorry about that.</h1>
+  <p>We're soooooooooooryyyyy.</p>
+  <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success">Back to the list</button></a>
+  <img src="{{ url_for('static', filename='img/errors/500.png') }}" style="width: 100%;">
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Looks like you ran into 404.</h1>
+  <p>There's nothing to see here. But you can click this useless button down there if you want to.</p>
+  <button class="btn btn-outline-info">Useless button</button>
+  <p>Sorry about that. This button will actually redirect you to the bollards list.</p>
+  <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success">Useful button</button></a>
+  <img src="{{ url_for('static', filename='img/errors/404.png') }}" style="width: 100%;">
+{% endblock content %}

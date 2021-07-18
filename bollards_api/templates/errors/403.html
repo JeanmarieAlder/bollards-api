@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>403, Access denied.</h1>
+  <p>This place is not interesting anyway.</p>
+  <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success">Back to the list</button></a>
+  <img src="{{ url_for('static', filename='img/errors/403.png') }}" style="width: 100%;">
+{% endblock content %}
