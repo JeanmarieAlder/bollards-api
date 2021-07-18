@@ -1,29 +1,33 @@
-import os
 
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from bollards_api.config import Config
 
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = 'plzchangeit'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bollards.db'
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
+db = SQLAlchemy()
+migrate = Migrate()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-from bollards_api.main.routes import main
-from bollards_api.users.routes import users
-from bollards_api.bollards.routes import bollards
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-app.register_blueprint(main)
-app.register_blueprint(users)
-app.register_blueprint(bollards)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+
+    from bollards_api.main.routes import main
+    from bollards_api.users.routes import users
+    from bollards_api.bollards.routes import bollards
+
+    app.register_blueprint(main)
+    app.register_blueprint(users)
+    app.register_blueprint(bollards)
+
+    return app
