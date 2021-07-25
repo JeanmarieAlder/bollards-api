@@ -1,0 +1,60 @@
+version: '3'
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
+services:
+  nginx:
+    container_name: nginx
+    volumes:
+      - "/srv/bollards/static/img:/usr/share/nginx/html/static/img"
+    build:
+      context: ./bollards
+      dockerfile: Dockerfile
+    networks:
+      - internal
+      - web
+    restart: always
+    labels:
+      - traefik.http.routers.blog.rule=Host(`bollards.ch`)
+      - traefik.http.routers.blog.tls=true
+      - traefik.http.routers.blog.tls.certresolver=lets-encrypt
+      - traefik.port=80
+  
+  api:
+    container_name: api
+    volumes:
+      - "/srv/bollards/static/img:/bollards_api/bollards_api/static/img"
+    build:
+      context: ./bollards_api
+      dockerfile: Dockerfile
+    env_file:
+      - api.env
+    networks:
+      - internal
+      - web
+    restart: always
+    labels:
+      - traefik.http.routers.blog.rule=Host(`bollards-api.ch`)
+      - traefik.http.routers.blog.tls=true
+      - traefik.http.routers.blog.tls.certresolver=lets-encrypt
+      - traefik.port=8000
+
+  db:
+    container_name: db
+    image: postgres:13.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - db.env
+    networks:
+      - internal
+    restart: always
+    labels:
+      - "traefik.enable=false"
+
+volumes:
+  postgres_data:

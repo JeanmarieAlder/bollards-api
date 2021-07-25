@@ -37,7 +37,7 @@ def crop_save_picture(new_picture, folder_path, fixed_square_size):
     i = Image.open(new_picture)
 
     # Crop image to square
-    print(str(i.width) + " " + str(i.height))
+    # print(str(i.width) + " " + str(i.height))
     i_width = i.width
     i_height = i.height
     if i_width > fixed_square_size and i_height > fixed_square_size:

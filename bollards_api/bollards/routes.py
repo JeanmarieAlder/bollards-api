@@ -39,8 +39,8 @@ def manage(bollard_id):
         bollard.date_updated = datetime.utcnow()
         if form.main_image.data:
             picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
-            print(picture_file_icon)
-            print(picture_file)
+            # print(picture_file_icon)
+            # print(picture_file)
             bollard.image_icon = picture_file_icon
             bollard.main_image = picture_file
         
@@ -85,11 +85,11 @@ def add():
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data)
             if form.main_image.data:
-                print(form.main_image.data)
-                print(form.images.data[0])
+                # print(form.main_image.data)
+                # print(form.images.data[0])
                 picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
-                print(picture_file_icon)
-                print(picture_file)
+                # print(picture_file_icon)
+                # print(picture_file)
                 new_bollard.image_icon = picture_file_icon
                 new_bollard.main_image = picture_file
             

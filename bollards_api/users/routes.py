@@ -18,7 +18,7 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        print(request.form)
+        # print(request.form)
         existing_user = User.query.filter_by(username=form.username.data).first()
         if existing_user and bcrypt.check_password_hash(existing_user.password, form.password.data):
             login_user(existing_user, remember=form.remember.data)
@@ -74,7 +74,7 @@ def account():
     if form_account_submitted and form_account.validate_on_submit():
         if form_account.profile_pic.data:
             picture_file = save_picture_profile(form_account.profile_pic.data)
-            print(picture_file)
+            # print(picture_file)
             current_user.profile_pic = picture_file
         current_user.username = form_account.username.data
         current_user.date_updated = datetime.utcnow()
