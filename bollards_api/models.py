@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 from bollards_api import db, login_manager
 from flask_login import UserMixin
 
@@ -34,9 +34,10 @@ class Bollard(db.Model):
     b_lat = db.Column(db.Numeric(8,5), nullable=False, default=46.64692)
     b_lng = db.Column(db.Numeric(8,5), nullable=False, default=6.28342)
     image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
-    main_image = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
-
-    images = db.relationship("Bimage", backref='bollard', lazy=True, cascade="all, delete-orphan")
+    images = db.relationship("Bimage", backref='bollard', lazy=True,
+            cascade="all, delete-orphan")
+    informations = db.relationship("Information", backref='bollard', 
+            lazy=True, cascade="all, delete-orphan")
 
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -52,3 +53,12 @@ class Bimage(db.Model):
 
     def __repr__(self):
         return f"Bimage('{self.uri}', '{self.bollard_id}')"
+
+
+class Information(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    information = db.Column(db.String(100), nullable=False, default='default_bollard.jpeg')
+    bollard_id = db.Column(db.Integer, db.ForeignKey('bollard.id'))
+
+    def __repr__(self):
+        return f"Information('{self.information}', '{self.bollard_id}')"
