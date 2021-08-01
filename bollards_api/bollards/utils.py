@@ -16,18 +16,7 @@ def crop_max_square(pil_img):
     return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
 
-def save_picture(new_picture, folder_path):
-    random_hex = secrets.token_hex(8)
-    _, file_ext = os.path.splitext(new_picture.filename)
-    picture_filename = random_hex + file_ext
-    picture_path = os.path.join(current_app.root_path, 'static', 'img', 
-                                    folder_path, picture_filename)
-    i = Image.open(new_picture)
-    i.save(picture_path)
-    return picture_filename
-
-
-def crop_save_picture(new_picture, folder_path, fixed_square_size):
+def crop_save_icon_bollard(new_picture, folder_path, fixed_square_size):
     random_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(new_picture.filename)
     picture_filename = random_hex + file_ext
@@ -50,9 +39,34 @@ def crop_save_picture(new_picture, folder_path, fixed_square_size):
     return picture_filename
 
 
+def crop_save_picture_bollard(new_picture, folder_path):
+    MAX_SIZE = 3840
+    random_hex = secrets.token_hex(8)
+    _, file_ext = os.path.splitext(new_picture.filename)
+    picture_filename = random_hex + file_ext
+    picture_path = os.path.join(current_app.root_path, 'static', 'img', 
+                                    folder_path, picture_filename)
+    i = Image.open(new_picture)
+    i_width = i.width
+    i_height = i.height
+    if i_width > MAX_SIZE or i_height > MAX_SIZE:
+        if(i_width >= i_height):
+            new_width = MAX_SIZE
+            new_height = (MAX_SIZE * i_height) // i_width
+        else:
+            new_height = MAX_SIZE
+            new_width = (MAX_SIZE * i_width) // i_height
+        output_size = (new_width, new_height)
+        # Reduce the size of picture
+        i.thumbnail(output_size, Image.ANTIALIAS)
+
+    i.save(picture_path)
+    return picture_filename
+
+
 # Saves the icon format as well as the full picture
 def save_picture_bollard(new_picture):
     fixed_square_size = 250
     folder_path_icon = 'bollards_icon'
     folder_path = 'bollards'
-    return crop_save_picture(new_picture, folder_path_icon, fixed_square_size), save_picture(new_picture, folder_path)
+    return crop_save_icon_bollard(new_picture, folder_path_icon, fixed_square_size), crop_save_picture_bollard(new_picture, folder_path)

@@ -1,3 +1,4 @@
+TO BE REFRACTORED
 INSERT INTO public.bollard(
 	b_number, b_letter, b_name, comment, b_lat, b_lng, image_icon, main_image, date_created, date_updated)
 	VALUES	('121', '', 'named', 'some comment lorem ipsum.', 46.64692, 6.28342, 'default_bollard.jpeg', 'default_bollard.jpeg', timezone('utc', now()), timezone('utc', now())), 

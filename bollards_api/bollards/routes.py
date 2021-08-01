@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from bollards_api import db
-from bollards_api.bollards.utils import save_picture_bollard, save_picture
+from bollards_api.bollards.utils import save_picture_bollard, crop_save_picture_bollard
 from bollards_api.bollards.forms import BollardForm
 from bollards_api.models import Bimage, Bollard
 from flask import Blueprint, flash, redirect, render_template, request, url_for
@@ -39,15 +39,14 @@ def manage(bollard_id):
         bollard.date_updated = datetime.utcnow()
         if form.main_image.data:
             picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
-            # print(picture_file_icon)
-            # print(picture_file)
             bollard.image_icon = picture_file_icon
-            bollard.main_image = picture_file
+            new_bimage = Bimage(uri=picture_file)
+            bollard.images.append(new_bimage)
         
         # fs is a FileStorage type
         if form.images.data[0].filename != '':
             for fs in form.images.data:    
-                picture_file = save_picture(new_picture=fs, folder_path='bollards')
+                picture_file = crop_save_picture_bollard(new_picture=fs, folder_path='bollards')
                 new_bimage = Bimage(uri=picture_file)
                 bollard.images.append(new_bimage)
         current_user.last_lat = form.b_lat.data
@@ -77,26 +76,21 @@ def add():
                             b_letter=form.b_letter.data.upper()).first():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
-            # for fs in form.images.data:
-            #    print(fs.filename)
             new_bollard = Bollard(b_number=form.b_number.data,
                                     b_letter=form.b_letter.data.upper(), 
                                     b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data)
             if form.main_image.data:
-                # print(form.main_image.data)
-                # print(form.images.data[0])
                 picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
-                # print(picture_file_icon)
-                # print(picture_file)
                 new_bollard.image_icon = picture_file_icon
-                new_bollard.main_image = picture_file
+                new_bimage = Bimage(uri=picture_file)
+                new_bollard.images.append(new_bimage)
             
             # fs is a FileStorage type
             for fs in form.images.data:
                 if fs.filename != '':
-                    picture_file = save_picture(new_picture=fs, folder_path='bollards')
+                    picture_file = crop_save_picture_bollard(new_picture=fs, folder_path='bollards')
                     new_bimage = Bimage(uri=picture_file)
                     new_bollard.images.append(new_bimage)
 

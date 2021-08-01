@@ -42,7 +42,7 @@ class Bollard(db.Model):
     date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Bollard('{self.b_number}', '{self.b_name}', '{self.comment}', '{self.image_icon}', '{self.main_image}')"
+        return f"Bollard('{self.b_number}', '{self.b_name}', '{self.comment}', '{self.image_icon}')"
 
 
 class Bimage(db.Model):
