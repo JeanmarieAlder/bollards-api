@@ -36,7 +36,7 @@
       {% for bollard in bollards.items %}
         <tr>
           <td><img class="media-body profile-pic p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
-          <td style="vertical-align: middle;"><b>Bollard No {{bollard.b_number}}{{ bollard.b_letter }}</b></td>
+          <td style="vertical-align: middle;"><b>No {{bollard.b_number}}{{ bollard.b_letter }}</b></td>
           <td>{{bollard.b_name}}</td>
           <td>{{bollard.comment}}</td>
           <td><a href="{{ url_for('bollards.manage', bollard_id=bollard.id) }}"><button class="btn btn-primary">Edit</button></a></td>
