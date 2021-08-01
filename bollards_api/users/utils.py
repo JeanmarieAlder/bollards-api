@@ -40,7 +40,7 @@ def crop_save_picture(new_picture, folder_path, fixed_square_size):
     i_height = i.height
     if i_width > fixed_square_size and i_height > fixed_square_size:
         i = crop_max_square(i)
-        
+    
     # Reduce the size of picture
     i.thumbnail(output_size, Image.ANTIALIAS)
 
