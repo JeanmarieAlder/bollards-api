@@ -80,10 +80,47 @@ body {
   padding: 4px;
 }
 
+.form-control-file{
+  width: 100%;
+  padding: 20px;
+  border: 4px dashed gray;
+}
+
 .profile-pic {
   width: 150px;
   height: 150px;
   border-radius: 50px;
+}
+
+.profile-pic-Mixed {
+  background-color: #D3D3D3;
+}
+.profile-pic-Fields {
+  background-color: #e4f599;
+}
+.profile-pic-Forest {
+  background-color: #1b5216;
+}
+.profile-pic-Pasture {
+  background-color: #49d644;
+}
+.profile-pic-Custom {
+  background-color: #233aa1;
+}
+.profile-pic-Rocky {
+  background-color: #3a3a3a;
+}
+.profile-pic-Swamp {
+  background-color: #683939;
+}
+.profile-pic-Plain {
+  background-color: #8396ff;
+}
+.profile-pic-Special {
+  background-color: #f8f523;
+}
+.profile-pic-Unknown {
+  background-color: #ffffff;
 }
 
 .bollard-list-title-div {
@@ -114,4 +151,4 @@ body {
   object-fit: cover;
 }
 
-#bollardmap { height: 300px; }
+#bollardmap { height: 420px; }

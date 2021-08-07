@@ -25,85 +25,99 @@
                         {{ form.b_number.label(class="form-control-label") }}
 
                         {% if form.b_number.errors %}
-                            {{ form.b_number(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                            {{ form.b_number(class="form-control form-control-sm is-invalid", autocomplete="off") }}
                             <div class="invalid-feedback">
                                 {% for error in form.b_number.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.b_number(class="form-control form-control-lg", autocomplete="off") }}
+                            {{ form.b_number(class="form-control form-control-sm", autocomplete="off") }}
                         {% endif %}
                     </span>
                     <span style="display: inline-block; vertical-align: top;">
                         {{ form.b_letter.label(class="form-control-label") }}
 
                         {% if form.b_letter.errors %}
-                            {{ form.b_letter(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                            {{ form.b_letter(class="form-control form-control-sm is-invalid", autocomplete="off") }}
                             <div class="invalid-feedback">
                                 {% for error in form.b_letter.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.b_letter(class="form-control form-control-lg", autocomplete="off") }}
+                            {{ form.b_letter(class="form-control form-control-sm", autocomplete="off") }}
                         {% endif %}
                     </span>
+                </div>
+                <div class="form-group">
+                    {{ form.b_type.label(class="form-control-label") }}
+
+                    {% if form.b_type.errors %}
+                        {{ form.b_type(class="form-control form-control-sm is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.b_type.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.b_type(class="form-control form-control-sm") }}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.b_name.label(class="form-control-label") }}
 
                     {% if form.b_name.errors %}
-                        {{ form.b_name(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                        {{ form.b_name(class="form-control form-control-sm is-invalid", autocomplete="off") }}
                         <div class="invalid-feedback">
                             {% for error in form.b_name.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.b_name(class="form-control form-control-lg", autocomplete="off") }}
+                        {{ form.b_name(class="form-control form-control-sm", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.comment.label(class="form-control-label") }}
 
                     {% if form.comment.errors %}
-                        {{ form.comment(class="form-control form-control-lg is-invalid", autocomplete="off") }}
+                        {{ form.comment(class="form-control form-control-sm is-invalid", autocomplete="off") }}
                         <div class="invalid-feedback">
                             {% for error in form.comment.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.comment(class="form-control form-control-lg", autocomplete="off") }}
+                        {{ form.comment(class="form-control form-control-sm", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.b_lat.label(class="form-control-label") }}
 
                     {% if form.b_lat.errors %}
-                        {{ form.b_lat(class="form-control form-control-lg is-invalid", id="manage-b-lat", autocomplete="off") }}
+                        {{ form.b_lat(class="form-control form-control-sm is-invalid", id="manage-b-lat", autocomplete="off") }}
                         <div class="invalid-feedback">
                             {% for error in form.b_lat.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.b_lat(class="form-control form-control-lg", id="manage-b-lat", autocomplete="off") }}
+                        {{ form.b_lat(class="form-control form-control-sm", id="manage-b-lat", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.b_lng.label(class="form-control-label") }}
 
                     {% if form.b_lng.errors %}
-                        {{ form.b_lng(class="form-control form-control-lg is-invalid", id="manage-b-lon", autocomplete="off") }}
+                        {{ form.b_lng(class="form-control form-control-sm is-invalid", id="manage-b-lon", autocomplete="off") }}
                         <div class="invalid-feedback">
                             {% for error in form.b_lng.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.b_lng(class="form-control form-control-lg", id="manage-b-lon", autocomplete="off") }}
+                        {{ form.b_lng(class="form-control form-control-sm", id="manage-b-lon", autocomplete="off") }}
                     {% endif %}
                 </div>
                 <div class="manage-map-div p-3">
@@ -130,6 +144,7 @@
                 <div>
                     {{ form.zoom_level(id="last-zoom-level") }}
                 </div>
+                <br/>
                 <div class="form-group">
                     <span>{{ form.submit(class="btn btn-outline-success") }}</span>
                     <span><a href="{{ url_for('bollards.list_bollards') }}"><div class="btn btn-outline-secondary btn-float-right">Cancel</div></a></span>

@@ -29,6 +29,7 @@ class Bollard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     b_number = db.Column(db.Integer, nullable=False)
     b_letter = db.Column(db.String(3), default="")
+    b_type = db.Column(db.String(50), default="Mixed")
     b_name = db.Column(db.String(50))
     comment = db.Column(db.Text())
     b_lat = db.Column(db.Numeric(8,5), nullable=False, default=46.64692)

@@ -27,7 +27,7 @@
   <table class="table">
       <tr>
         <th scope="col">Image</th>
-        <th scope="col">Number</th>
+        <th scope="col">No</th>
         <th scope="col">Name</th>
         <th scope="col">Comment</th>
         <th scope="col">Edit</th>
@@ -35,7 +35,7 @@
       </tr>
       {% for bollard in bollards.items %}
         <tr>
-          <td><img class="media-body profile-pic p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
+          <td class=""><img class="media-body profile-pic profile-pic-{{bollard.b_type}} p-1" src="{{ url_for('static', filename='img/bollards_icon/' + bollard.image_icon) }}"></td>
           <td style="vertical-align: middle;"><b>No {{bollard.b_number}}{{ bollard.b_letter }}</b></td>
           <td>{{bollard.b_name}}</td>
           <td>{{bollard.comment}}</td>

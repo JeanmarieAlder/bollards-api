@@ -32,6 +32,7 @@ def manage(bollard_id):
     if form.validate_on_submit():
         bollard.b_number = form.b_number.data
         bollard.b_letter = form.b_letter.data
+        bollard.b_type = form.b_type.data
         bollard.b_name = form.b_name.data
         bollard.comment = form.comment.data
         bollard.b_lat = form.b_lat.data
@@ -58,6 +59,7 @@ def manage(bollard_id):
     
     form.b_number.data = bollard.b_number
     form.b_letter.data = bollard.b_letter
+    form.b_type.data = bollard.b_type
     form.b_name.data = bollard.b_name
     form.comment.data = bollard.comment
     form.b_lat.data = bollard.b_lat
@@ -77,7 +79,8 @@ def add():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
             new_bollard = Bollard(b_number=form.b_number.data,
-                                    b_letter=form.b_letter.data.upper(), 
+                                    b_letter=form.b_letter.data.upper(),
+                                    b_type=form.b_type.data, 
                                     b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data)

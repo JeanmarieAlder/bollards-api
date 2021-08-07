@@ -2,14 +2,20 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from wtforms import (DecimalField, HiddenField, IntegerField,
                      MultipleFileField, StringField, SubmitField,
-                     TextAreaField)
+                     TextAreaField, SelectField)
 from wtforms.validators import DataRequired, Length
+
+TYPE_LIST = ['Mixed', 'Fields', 'Forest', 'Pasture',
+            'Custom', 'Rocky', 'Swamp',
+            'Plain', 'Special', 'Unknown']
 
 class BollardForm(FlaskForm):
     b_number = IntegerField('Bollard No',
                             validators=[DataRequired()])
 
     b_letter = StringField('Letter', validators=[Length(max=3)])
+
+    b_type = SelectField('Type', choices=TYPE_LIST)
     
     b_name = StringField('Name',
                             validators=[Length(max=100)])
