@@ -1,7 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Home</h1>
-  <a href="{{ url_for('users.login') }}"><button class="btn btn-outline-info">Login</button></a>
-  <a href="{{ url_for('bollards.add') }}"><button class="btn btn-outline-info">New Bollard</button></a>
-  <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-info">List Bollards</button></a>
+  <h1 class="text-center">Welcome to Bollards API</h1>
+  <div class="p-1 text-center">
+    <a href="{{ url_for('users.login') }}"><button class="btn btn-outline-success p-2">Login</button></a>
+    <a href="{{ url_for('bollards.add') }}"><button class="btn btn-outline-success p-2">New Bollard</button></a>
+    <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success p-2">List Bollards</button></a>
+  </div>
+  <div class="card-container p-1">
+    <div class="p-1 row text-center justify-content-center">
+      <div class="card welcome-card">
+        <img src="{{ url_for('static', filename='img/home/website_bollard.jpg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Visit bollards.ch</h5>
+          <p class="card-text">Discover all bollards between Vaud, Switzerland and France.</p>
+          <a href="https://bollards.ch" class="btn btn-success">bollards.ch</a>
+        </div>
+      </div>
+      <div style="width: 30px;"></div>
+      <div class="card welcome-card">
+        <img src="{{ url_for('static', filename='img/home/github_bollard.jpg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">Browse the source code on Github</h5>
+          <p class="card-text">
+            This project is open source, anyone can use or modify the code at his will.
+            Check it out!
+          </p>
+          <a href="https://github.com/JeanmarieAlder/bollards-api" class="btn btn-success m-1">
+            <img src="{{ url_for('static', filename='img/home/github_mark.png') }}">
+            Bollards-api
+          </a>
+          <a href="https://github.com/JeanmarieAlder/bollards" class="btn btn-success m-1">
+            <img src="{{ url_for('static', filename='img/home/github_mark.png') }}">
+            Bollards
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="p-1">
+    Welcome to the bollards.ch API.
+    This web app is mostly used to retrieve all bollards from the database and for management purposes.
+    We currently do not accept new moderators at this point, but feel free to contact the author for more information at wakxy13@gmail.com.
+  </div>
+  <div class="p-1 text-center">
+    <a href="{{ url_for('users.login') }}"><button class="btn btn-outline-success p-2">Login</button></a>
+    <a href="{{ url_for('bollards.add') }}"><button class="btn btn-outline-success p-2">New Bollard</button></a>
+    <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success p-2">List Bollards</button></a>
+  </div>
+  
 {% endblock content %}

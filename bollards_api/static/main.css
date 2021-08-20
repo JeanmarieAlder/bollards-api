@@ -151,4 +151,16 @@ body {
   object-fit: cover;
 }
 
+.accordion-button:not(.collapsed) {
+  color: #000000;
+  background-color: #d1e7dd;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+
+.welcome-card {
+  width: 306px; 
+  padding: 3px;
+  margin: 5px;
+}
+
 #bollardmap { height: 420px; }
