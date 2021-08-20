@@ -39,3 +39,18 @@ Notes:
 - Make sure the database is empty when upgrading for the first time. (import db and db.drop_all())
 - If any change is made to sqlalchemy models, use flask db migrate, then flask db upgrade
 - If everything starts to mess up, just delete the migrations folder, delete the line with revision number in alambic table (DO NOT remove the table itself)
+
+
+## Tests
+To run unit test suite, install pytest:
+```bash
+pip install pytest
+```
+...
+
+Installed packages included with pytest:
+
+Installing collected packages: pyparsing, toml, py, pluggy, packaging, iniconfig, attrs, pytest.
+
+
+Successfully installed attrs-21.2.0 iniconfig-1.1.1 packaging-21.0 pluggy-0.13.1 py-1.10.0 pyparsing-2.4.7 pytest-6.2.4 toml-0.10.2

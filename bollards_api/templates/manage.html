@@ -159,7 +159,9 @@
             <div class="row">
                 {% for img in bollard.images %}
                     <div class="card m-1" style="width: 230px;">
-                        <img class="card-img-top with-bg-size" src="{{ url_for('static', filename='img/bollards/' + img.uri) }}" alt="{{ img.uri }}">
+                        <a href="{{ url_for('static', filename='img/bollards/' + img.uri) }}" target="_blank">
+                            <img class="card-img-top with-bg-size" src="{{ url_for('static', filename='img/bollards/' + img.uri) }}" alt="{{ img.uri }}">
+                        </a>
                         <div class="card-body">
                             <p class="card-title">{{ img.uri }}</p>
                             <form action="{{ url_for('bollards.delete_image', bimage_id=img.id, bollard_id=bollard.id) }}" method="POST">
