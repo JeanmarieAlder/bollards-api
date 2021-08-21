@@ -2,10 +2,14 @@
 import json
 from os import name
 
+from flask_cors import CORS
+
 from bollards_api.models import Bollard
 from flask import Blueprint, jsonify
 
 api = Blueprint('api', __name__, url_prefix='/api/v1')
+
+CORS(api)
 
 @api.route('/bollards/list')
 def bollards_list():
