@@ -5,9 +5,8 @@ from wtforms import (DecimalField, HiddenField, IntegerField,
                      TextAreaField, SelectField)
 from wtforms.validators import DataRequired, Length
 
-TYPE_LIST = ['Mixed', 'Fields', 'Forest', 'Pasture',
-            'Custom', 'Rocky', 'Swamp',
-            'Plain', 'Special', 'Unknown']
+TYPE_LIST = [ 'Forest', 'Fields', 'Rocky', 'Swamp',
+            'Custom', 'Plain', 'Special']
 
 class BollardForm(FlaskForm):
     b_number = IntegerField('Bollard No',
