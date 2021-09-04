@@ -27,6 +27,23 @@ def bollards_list():
     return jsonify(resp)
 
 
+@api.route('/bollards/markers')
+def bollards_markers():
+    bollards = Bollard.query.all()
+    resp = []
+    for bollard in bollards:
+        resp.append({
+            "id": bollard.id,
+            "b_number": bollard.b_number,
+            "b_letter": bollard.b_letter,
+            "b_name": bollard.b_name,
+            "image_icon": bollard.image_icon,
+            "b_lat": str(bollard.b_lat),
+            "b_lng": str(bollard.b_lng)
+        })
+    return jsonify(resp)
+
+
 @api.route('/bollards/paginate/<int:page>')
 def bollards_paginate(page):
     bollards = Bollard.query.order_by(Bollard.b_number, 
