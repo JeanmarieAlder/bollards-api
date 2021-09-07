@@ -44,6 +44,27 @@ def bollards_markers():
     return jsonify(resp)
 
 
+@api.route('/bollards/details/<int:bollard_id>')
+def bollards_details(bollard_id):
+    bollard = Bollard.query.filter_by(id=bollard_id).first_or_404()
+    images = []
+    for img in bollard.images:
+        images.append(img.uri)
+        
+    return jsonify({
+        'id': bollard.id,
+        'b_number': bollard.b_number,
+        'b_letter': bollard.b_letter,
+        'b_type': bollard.b_type,
+        'b_name': bollard.b_name,
+        'comment': bollard.comment,
+        'b_lat': str(bollard.b_lat),
+        'b_lng': str(bollard.b_lng),
+        'image_icon': bollard.image_icon,
+        'images': images
+    })
+
+
 @api.route('/bollards/paginate/<int:page>')
 def bollards_paginate(page):
     bollards = Bollard.query.order_by(Bollard.b_number, 
