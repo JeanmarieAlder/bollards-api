@@ -37,6 +37,7 @@ def bollards_markers():
             "b_number": bollard.b_number,
             "b_letter": bollard.b_letter,
             "b_name": bollard.b_name,
+            "b_type": bollard.b_type,
             "image_icon": bollard.image_icon,
             "b_lat": str(bollard.b_lat),
             "b_lng": str(bollard.b_lng)
