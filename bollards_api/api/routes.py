@@ -7,6 +7,8 @@ from flask_cors import CORS
 from bollards_api.models import Bollard
 from flask import Blueprint, jsonify
 
+from bollards_api.api.utils import get_neighbours_by_number
+
 api = Blueprint('api', __name__, url_prefix='/api/v1')
 
 CORS(api)
@@ -51,6 +53,7 @@ def bollards_details(bollard_id):
     images = []
     for img in bollard.images:
         images.append(img.uri)
+    neighbours = get_neighbours_by_number(bollard)
         
     return jsonify({
         'id': bollard.id,
@@ -62,7 +65,8 @@ def bollards_details(bollard_id):
         'b_lat': str(bollard.b_lat),
         'b_lng': str(bollard.b_lng),
         'image_icon': bollard.image_icon,
-        'images': images
+        'images': images,
+        'neighbours': neighbours
     })
 
 

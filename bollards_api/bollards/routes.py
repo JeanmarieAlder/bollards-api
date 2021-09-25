@@ -64,6 +64,7 @@ def manage(bollard_id):
     form.comment.data = bollard.comment
     form.b_lat.data = bollard.b_lat
     form.b_lng.data = bollard.b_lng
+    form.zoom_level.data = current_user.last_zoom
     return render_template('manage.html', title='Manage', bollard=bollard, form=form,
         has_map=True, init_lat=bollard.b_lat, init_lng=bollard.b_lng,
         current_url=request.url)
@@ -104,6 +105,7 @@ def add():
             db.session.commit()
             flash(f'Bollard No {form.b_number.data} Created', 'success')
             return redirect(url_for('bollards.list_bollards'))
+    form.zoom_level.data = current_user.last_zoom
     return render_template('manage.html', title='Add', form=form, has_map=True,
                 init_lat=current_user.last_lat, init_lng=current_user.last_lon,
                 init_zoom=current_user.last_zoom)
