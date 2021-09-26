@@ -40,7 +40,7 @@ def crop_save_icon_bollard(new_picture, folder_path, fixed_square_size):
 
 
 def crop_save_picture_bollard(new_picture, folder_path):
-    MAX_SIZE = 3840
+    MAX_SIZE = 2560
     random_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(new_picture.filename)
     picture_filename = random_hex + file_ext

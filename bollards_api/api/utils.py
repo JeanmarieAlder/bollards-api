@@ -22,7 +22,8 @@ def get_neighbours_by_number(current_bollard):
             'b_letter': neighbour.b_letter,
             'b_type': neighbour.b_type,
             'b_lat': str(neighbour.b_lat),
-            'b_lng': str(neighbour.b_lng)
+            'b_lng': str(neighbour.b_lng),
+            'image_icon': neighbour.image_icon
         })
 
     return res
