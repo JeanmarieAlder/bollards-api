@@ -9,17 +9,11 @@ Get the position, number and name of the closest bollards
 """
 def get_neighbours_by_number(current_bollard):
     current_number = current_bollard.b_number
-    number_list = (
-        current_number - 3,
-        current_number - 2,
-        current_number - 1, 
-        current_number,
-        current_number + 1,
-        current_number + 2,
-        current_number + 3
-        )
 
-    neighbours = Bollard.query.filter(Bollard.b_number.in_(number_list)).all()
+    neighbours = Bollard.query.filter(
+        Bollard.b_number > current_number - 20, 
+        Bollard.b_number < current_number + 20 
+        ).all()
     neighbours.remove(current_bollard)
 
     res = []
