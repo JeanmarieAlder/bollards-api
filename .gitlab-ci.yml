@@ -8,6 +8,10 @@ unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   variables:
     FLASK_SECRET_KEY: $FLASK_SECRET_KEY
+    DATABASE_URL: $DATABASE_URL
+    TEST_FLASK_SECRET_KEY: $TEST_FLASK_SECRET_KEY
+    REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
+    TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
   script:
     - echo "Running unit tests..."
     - ls
