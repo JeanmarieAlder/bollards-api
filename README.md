@@ -54,7 +54,7 @@ Installed packages included with pytest:
 pyparsing, toml, py, pluggy, packaging, iniconfig, attrs, pytest.
 
 ## Test Coverage
-To run tests with an html cover report, use:
+To run tests with an html cover report, use: 
 ```bash
 pytest --cov=bollards_api --cov-report=html
 ```
