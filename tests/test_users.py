@@ -15,7 +15,7 @@ def test_register_page_layout(client):
     assert b'Note: To get editing permissions, contact the author.' in resp
 
 
-def test_register_correctly(client, app):
+def test_register_correctly(client):
     rv = client.post("/register", data=dict(
         username="newuser",
         password="newpassword",
@@ -27,12 +27,12 @@ def test_register_correctly(client, app):
     assert b'<h1>Login</h1>' in resp
 
 
-def test_register_fails_without_arguments(client, app):
+def test_register_fails_without_arguments(client):
     rv = client.post("/register", data=dict(
         username="badguy",
         password="misterbadguy",
         confirm_password="misterbadguy",
-        secret_phrase="Completelywrongsecretphrase"
+        secret_phrase=os.environ['TEST_REGISTRATION_SECRET_PHRASE']
     ), follow_redirects=True)
     resp = rv.data
     print(resp)
@@ -42,7 +42,7 @@ def test_register_fails_without_arguments(client, app):
     assert b'<h1>Register as a guest</h1>' in resp
 
 
-def test_register_fails_with_different_passwords(client, app):
+def test_register_fails_with_different_passwords(client):
     rv = client.post("/register", data=dict(
         username="badguy",
         password="misterbadguy",
