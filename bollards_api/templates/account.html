@@ -16,7 +16,7 @@
             <div id="collapseOne" class="accordion-collapse collapse {{ accordion_account_open }}" aria-labelledby="headingOne" data-bs-parent="#accordion-account">
                 <div class="accordion-body">
                     <form method="POST" action="" enctype="multipart/form-data">
-                        {{ form_account.csrf_token(id="csrf_token_account") }}
+                        {{ form_account.hidden_tag() }}
                         <fieldset class="form-group">
                             <div class="form-group">
                                 {{ form_account.username.label(class="form-control-label") }}
@@ -60,7 +60,7 @@
             <div id="collapseTwo" class="accordion-collapse collapse {{ accordion_password_open }}" aria-labelledby="headingTwo" data-bs-parent="#accordion-account">
                 <div class="accordion-body">
                     <form method="POST" action="" enctype="multipart/form-data">
-                        {{ form_password.csrf_token}}
+                        {{ form_password.hidden_tag()}}
                         <fieldset class="form-group">
                             <div class="form-group">
                                 {{ form_password.old_password.label(class="form-control-label") }}
