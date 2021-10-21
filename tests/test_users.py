@@ -31,14 +31,12 @@ def test_register_fails_without_arguments(client):
     rv = client.post("/register", data=dict(
         username="badguy",
         password="misterbadguy",
-        confirm_password="misterbadguy",
-        secret_phrase=os.environ['TEST_REGISTRATION_SECRET_PHRASE']
+        confirm_password="misterbadguy"
     ), follow_redirects=True)
     resp = rv.data
     print(resp)
-    assert b'Account created. Welcome newuser. Please log in.' not in resp
+    assert b'Account created.' not in resp
     assert b'<h1>Login</h1>' not in resp
-    assert b'Account creation is limited. Please contact the author for specific access' in resp
     assert b'<h1>Register as a guest</h1>' in resp
 
 
@@ -89,4 +87,5 @@ def test_account_page_displays_user(client, auth):
     rv = client.get("/account")
     print(rv.data)
     resp = rv.data
-    assert False
+    assert b'<h1>Account</h1>' in resp
+    assert b'<h2>Logged in as <b>noob</b></h2>' in resp
