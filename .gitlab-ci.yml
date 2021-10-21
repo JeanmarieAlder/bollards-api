@@ -17,6 +17,12 @@ unit-test-job:   # This job runs in the test stage.
     - ls
     - echo REGISTRATION_SECRET_PHRASE
     - echo TEST_REGISTRATION_SECRET_PHRASE
+    - echo $REGISTRATION_SECRET_PHRASE
+    - echo $TEST_REGISTRATION_SECRET_PHRASE
+    - echo "$REGISTRATION_SECRET_PHRASE"
+    - echo "$TEST_REGISTRATION_SECRET_PHRASE"
+    - echo "REGISTRATION_SECRET_PHRASE"
+    - echo "TEST_REGISTRATION_SECRET_PHRASE"
     - pip install -r requirements.txt
     - pytest
     - echo "done..."
