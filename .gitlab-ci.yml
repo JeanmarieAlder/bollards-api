@@ -16,6 +16,7 @@ variables:
 # If you want to also cache the installed packages, you have to install
 # them in a virtualenv and cache it as well.
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .cache/pip
     - venv/
@@ -29,6 +30,7 @@ before_script:
 build-project:
   stage: build
   script:
+    - echo ${CI_COMMIT_SHORT_SHA}
     - echo "Building python dependencies..."
     - pip install -r requirements.txt
     - echo "done..."
@@ -37,8 +39,10 @@ unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running unit tests..."
-    - pytest
+    - pytest --cov=bollards_api --cov-report=html
     - echo "done..."
+  artifacts:
+    - ./htmlcov
 
 sonarqube-fake-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
@@ -48,8 +52,11 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
     - echo "No security issues found, at all."
 
 deploy-job-staging:
-  stage: deploy
   image: alpine:latest
+  stage: deploy
+  environment:
+    name: staging
+    url: https://bollards-api.wakxy.rocks
   only:
     - develop
   before_script:
@@ -60,8 +67,11 @@ deploy-job-staging:
     - echo "Application successfully deployed (Development)."
 
 deploy-job-production:
-  stage: deploy
   image: alpine:latest
+  stage: deploy
+  environment:
+    name: production
+    url: https://bollards-api.ch
   only:
     - master
   before_script:
