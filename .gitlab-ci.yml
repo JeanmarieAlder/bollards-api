@@ -53,7 +53,7 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
     - echo "No security issues found, at all."
 
 deploy-job-staging:
-  image: alpine:latest
+  image: alpine
   stage: deploy
   environment:
     name: staging
