@@ -64,7 +64,6 @@ deploy-job-staging:
     - echo "Alpine image loaded."
   script:
     - echo "Deploying application on development server..."
-    - chmod og= $ID_RSA #This is a requirements, they said...
     - apk update && apk add openssh-client
     - echo "$ID_RSA" | ssh-add -
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git pull && sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA" bollards_api/templates/home.html
