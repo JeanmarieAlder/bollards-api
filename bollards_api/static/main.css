@@ -163,4 +163,8 @@ body {
   margin: 5px;
 }
 
+.build-no-div {
+  text-align: center;
+}
+
 #bollardmap { height: 420px; }

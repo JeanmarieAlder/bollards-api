@@ -3,18 +3,40 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
+image: python:3.8.10
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  FLASK_SECRET_KEY: $FLASK_SECRET_KEY
+  DATABASE_URL: $DATABASE_URL
+  TEST_FLASK_SECRET_KEY: $TEST_FLASK_SECRET_KEY
+  REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
+  TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
+
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -V               # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+build-project:
+  stage: build
+  script:
+    - echo "Building python dependencies..."
+    - pip install -r requirements.txt
+    - echo "done..."
+
 unit-test-job:   # This job runs in the test stage.
-  image: python:3.8.10
   stage: test    # It only starts when the job in the build stage completes successfully.
-  variables:
-    FLASK_SECRET_KEY: $FLASK_SECRET_KEY
-    DATABASE_URL: $DATABASE_URL
-    TEST_FLASK_SECRET_KEY: $TEST_FLASK_SECRET_KEY
-    REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
-    TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
   script:
     - echo "Running unit tests..."
-    - pip install -r requirements.txt
     - pytest
     - echo "done..."
 
@@ -22,14 +44,29 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
     - echo "Lemme fake some security scanner over here."
-    - sleep 5
+    - sleep 10
     - echo "No security issues found, at all."
 
-deploy-job:      # This job runs in the deploy stage.
+deploy-job-staging:
+  stage: deploy
+  image: alpine:latest
   only:
-    - tags
-    - master
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+    - develop
+  before_script:
+    - echo "Alpine image loaded."
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - echo "Deploying application on development server..."
+    - sleep 5
+    - echo "Application successfully deployed (Development)."
+
+deploy-job-production:
+  stage: deploy
+  image: alpine:latest
+  only:
+    - master
+  before_script:
+    - echo "Alpine image loaded."
+  script:
+    - echo "Deploying application on production server..."
+    - sleep 6
+    - echo "Application successfully deployed (Production)."
