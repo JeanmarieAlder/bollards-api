@@ -14,6 +14,7 @@ variables:
   REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
   TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
   TEST_API_URL: "bollards-api.wakxy.rocks"
+  TEST_COVERAGE_URL: bollards.wakxy.rocks/coverage/api
   API_URL: "bollards-api.ch"
 
 # If you want to also cache the installed packages, you have to install
@@ -92,6 +93,24 @@ test-staging-deployment:
     - curl -s "https://$TEST_API_URL" | grep -q "Welcome to Bollards API"
     - curl -s "https://$TEST_API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
     - echo "Build $CI_COMMIT_SHORT_SHA is live on staging server."
+
+deploy-staging-coverage:
+  image: alpine
+  stage: deploy
+  cache: []
+  environment:
+    name: staging-coverage
+    url: https://$TEST_COVERAGE_URL
+  allow_failure: true
+  only:
+    - develop
+  before_script: []
+  script:
+    - echo "Deploying code coverage on development server..."
+    - chmod og= $ID_RSA # This is a requirements, they said...
+    - apk update && apk add openssh-client
+    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/coverage && curl -L -o artifacts.zip 'https://gitlab.com/JeanmarieAlder/bollards-api/-/jobs/artifacts/develop/download?job=unit-test-job' && unzip artifacts.zip && rsync -a --delete htmlcov/ api/ && rm -rf artifacts.zip htmlcov"
+    - echo "Code coverage successfully deployed (Development)." 
 
 deploy-job-production:
   image: alpine
