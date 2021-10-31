@@ -2,6 +2,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - test
   - deploy
+  - test-deployment
 
 image: python:3.8.10
 
@@ -12,6 +13,8 @@ variables:
   TEST_FLASK_SECRET_KEY: $TEST_FLASK_SECRET_KEY
   REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
   TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
+  TEST_API_URL: "bollards-api.wakxy.rocks"
+  API_URL: "bollards-api.ch"
 
 # If you want to also cache the installed packages, you have to install
 # them in a virtualenv and cache it as well.
@@ -57,7 +60,7 @@ deploy-job-staging:
   stage: deploy
   environment:
     name: staging
-    url: https://bollards-api.wakxy.rocks
+    url: https://$TEST_API_URL
   only:
     - develop
   before_script:
@@ -71,12 +74,27 @@ deploy-job-staging:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
     - echo "Application successfully deployed (Development)."
 
+test-staging-deployment:
+  image: alpine
+  stage: test-deployment
+  only:
+    - develop
+  before_script:
+    - echo "Alpine image loaded."
+  script:
+    - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
+    - apk add --no-cache curl
+    - sleep 5
+    - curl -s "https://$TEST_API_URL" | grep -q "Welcome to Bollards API"
+    - curl -s "https://$TEST_API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
+    - echo "Build $CI_COMMIT_SHORT_SHA is live on staging server."
+
 deploy-job-production:
   image: alpine
   stage: deploy
   environment:
     name: production
-    url: https://bollards-api.ch
+    url: https://$API_URL
   only:
     - master
   before_script:

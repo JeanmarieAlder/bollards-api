@@ -1,4 +1,5 @@
-FROM python:3.9.6-slim-buster
+FROM python:3.9.6-slim-buster 
+# For raspberry pi, user python-buster instead of slim-buster
 
 COPY . /bollards_api
 
