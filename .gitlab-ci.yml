@@ -50,6 +50,8 @@ unit-test-job:   # This job runs in the test stage.
 
 sonarqube-fake-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
+  cache: []
+  before_script: []
   script:
     - echo "Lemme fake some security scanner over here."
     - sleep 10
@@ -58,6 +60,7 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
 deploy-job-staging:
   image: alpine
   stage: deploy
+  cache: []
   environment:
     name: staging
     url: https://$TEST_API_URL
@@ -77,6 +80,7 @@ deploy-job-staging:
 test-staging-deployment:
   image: alpine
   stage: test-deployment
+  cache: []
   only:
     - develop
   before_script:
@@ -92,6 +96,7 @@ test-staging-deployment:
 deploy-job-production:
   image: alpine
   stage: deploy
+  cache: []
   environment:
     name: production
     url: https://$API_URL
