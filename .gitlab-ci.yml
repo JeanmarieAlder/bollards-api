@@ -107,7 +107,7 @@ deploy-staging-coverage:
   before_script: []
   script:
     - echo "Deploying code coverage on development server..."
-    - chmod og= $ID_RSA # This is a requirements, they said...
+    - chmod og= $TEST_ID_RSA # This is a requirements, they said...
     - apk update && apk add openssh-client
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/coverage && curl -L -o artifacts.zip 'https://gitlab.com/JeanmarieAlder/bollards-api/-/jobs/artifacts/develop/download?job=unit-test-job' && unzip artifacts.zip && rsync -a --delete htmlcov/ api/ && rm -rf artifacts.zip htmlcov"
     - echo "Code coverage successfully deployed (Development)." 
