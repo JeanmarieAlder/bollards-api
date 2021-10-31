@@ -13,7 +13,9 @@ def add_default_user():
     app = current_app
     with app.app_context():
         user1 = User(username='noob', password=bcrypt.generate_password_hash('password').decode('utf-8'))
+        user2 = User(username='user2', password=bcrypt.generate_password_hash('password2').decode('utf-8'))
         db.session.add(user1)
+        db.session.add(user2)
         db.session.commit()
 
 def add_test_bollards():

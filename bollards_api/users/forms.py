@@ -37,7 +37,7 @@ class RegisterForm(FlaskForm):
         user_exists = User.query.filter_by(username=username.data).first()
 
         if user_exists:
-            raise ValidationError('Username allready taken')
+            raise ValidationError('Username already taken')
 
 
 class UpdateAccountForm(FlaskForm):
@@ -51,7 +51,7 @@ class UpdateAccountForm(FlaskForm):
         if username.data != current_user.username:
             user_exists = User.query.filter_by(username=username.data).first()
             if user_exists:
-                raise ValidationError('Username allready taken')
+                raise ValidationError('Username already taken')
 
 
 class UpdateAccountPasswordForm(FlaskForm):
