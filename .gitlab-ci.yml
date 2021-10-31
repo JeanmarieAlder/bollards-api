@@ -115,7 +115,7 @@ deploy-job-production:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
     - echo "Application successfully deployed (Production)."
 
-    test-production-deployment:
+test-production-deployment:
   image: alpine
   stage: test-deployment
   cache: []
