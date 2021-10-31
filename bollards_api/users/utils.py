@@ -16,17 +16,6 @@ def crop_max_square(pil_img):
     return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
 
-def save_picture(new_picture, folder_path):
-    random_hex = secrets.token_hex(8)
-    _, file_ext = os.path.splitext(new_picture.filename)
-    picture_filename = random_hex + file_ext
-    picture_path = os.path.join(current_app.root_path, 'static', 'img', 
-                                    folder_path, picture_filename)
-    i = Image.open(new_picture)
-    i.save(picture_path)
-    return picture_filename
-
-
 def crop_save_picture(new_picture, folder_path, fixed_square_size):
     random_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(new_picture.filename)

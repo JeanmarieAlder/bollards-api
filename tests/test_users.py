@@ -1,5 +1,8 @@
-from io import BytesIO
 import os
+from io import BytesIO
+
+from pytest_mock import MockerFixture
+
 
 def test_register_page_layout(client):
     rv = client.get("/register")
@@ -163,8 +166,10 @@ def test_username_change_existing_username_error(client, auth):
     assert b'<input class="form-control form-control-lg is-invalid" id="username" name="username" required type="text" value="noob">' in resp
 
 
-def test_account_image_updates_correctly(client, auth):
+# 'mocker' fixture provided by pytest-mock
+def test_account_image_updates_correctly(client, auth, mocker: MockerFixture):
     auth.login()
+    mocker.patch('PIL.Image.Image.save')
     with open("tests/img/test-profile-pic.jpg", 'rb') as img:
         imgStringIO = BytesIO(img.read())
     rv = client.post("/account", data=dict(
@@ -174,7 +179,8 @@ def test_account_image_updates_correctly(client, auth):
         ), follow_redirects=True)
     resp = rv.data
     print(resp)
-    assert False
+    assert b'<h1>Account</h1>' in resp
+    assert b'<img class="media-body profile-pic p-3" src="/static/img/profile_pics/default_profile.jpeg">' not in resp
 
 
 
