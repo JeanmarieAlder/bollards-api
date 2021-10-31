@@ -66,7 +66,8 @@ deploy-job-staging:
     - echo "Deploying application on development server..."
     - chmod og= $ID_RSA #This is a requirements, they said...
     - apk update && apk add openssh-client bash
-    - ssh -i ${ID_RSA} -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git pull && sed -i s/%%VERSION%%/$CI_COMMIT_SHORT_SHA bollards_api/templates/home.html"
+    - ssh -i ${ID_RSA} -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git pull"
+    - ssh -i ${ID_RSA} -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "sed -i s/%%VERSION%%/$CI_COMMIT_SHORT_SHA bollards_api/templates/home.html"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $TEST_DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
     - echo "Application successfully deployed (Development)."
 
