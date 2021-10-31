@@ -1,11 +1,13 @@
 FROM python:3.9.6-slim-buster 
 # For raspberry pi, user python-buster instead of slim-buster
 
+COPY requirements.txt /
+
+RUN pip install -r requirements.txt
+
 COPY . /bollards_api
 
 WORKDIR /bollards_api
-
-RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
