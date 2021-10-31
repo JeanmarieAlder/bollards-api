@@ -100,6 +100,8 @@ deploy-job-production:
   environment:
     name: production
     url: https://$API_URL
+  when: manual
+  allow_failure: false
   only:
     - master
   before_script:
