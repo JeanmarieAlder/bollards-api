@@ -114,3 +114,19 @@ deploy-job-production:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "sed -i 's/%%VERSION%%/$CI_COMMIT_SHORT_SHA/' /srv/bollards/bollards_api/bollards_api/templates/home.html"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
     - echo "Application successfully deployed (Production)."
+
+    test-production-deployment:
+  image: alpine
+  stage: test-deployment
+  cache: []
+  only:
+    - master
+  before_script:
+    - echo "Alpine image loaded."
+  script:
+    - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
+    - apk add --no-cache curl
+    - sleep 10
+    - curl -s "https://$API_URL" | grep -q "Welcome to Bollards API"
+    - curl -s "https://$API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
+    - echo "Build $CI_COMMIT_SHORT_SHA is live on production server."
