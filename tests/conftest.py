@@ -4,8 +4,9 @@
 import pytest
 from bollards_api import create_app, db
 from bollards_api.config import TestConfig
-from bollards_api import db
-from tests.utils.db import add_default_user, reset_db
+
+from tests.utils.db import add_default_bollards, add_default_user, reset_db
+
 
 @pytest.fixture
 def app():
@@ -14,6 +15,7 @@ def app():
     with app.app_context():
         reset_db()
         add_default_user()
+        add_default_bollards()
     yield app
 
 @pytest.fixture

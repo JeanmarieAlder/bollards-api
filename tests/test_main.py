@@ -1,4 +1,3 @@
-import pytest
 
 from bollards_api.main.forms import ContactForm
 

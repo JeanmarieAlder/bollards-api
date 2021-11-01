@@ -18,7 +18,7 @@ def add_default_user():
         db.session.add(user2)
         db.session.commit()
 
-def add_test_bollards():
+def add_default_bollards():
     app = current_app
     with app.app_context():
         bimage1 = Bimage(uri="test_bollard_1.jpeg")
