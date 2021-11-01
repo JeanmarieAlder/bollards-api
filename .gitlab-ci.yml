@@ -51,6 +51,8 @@ unit-test-job:   # This job runs in the test stage.
 
 sonarqube-fake-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
+  variables:
+    GIT_STRATEGY: none
   cache: []
   before_script: []
   script:
@@ -61,6 +63,8 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
 deploy-job-staging:
   image: alpine
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
   cache: []
   environment:
     name: staging
@@ -81,6 +85,8 @@ deploy-job-staging:
 test-staging-deployment:
   image: alpine
   stage: test-deployment
+  variables:
+    GIT_STRATEGY: none
   cache: []
   only:
     - develop
@@ -97,6 +103,8 @@ test-staging-deployment:
 deploy-staging-coverage:
   image: alpine
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
   cache: []
   environment:
     name: staging-coverage
@@ -118,6 +126,8 @@ deploy-staging-coverage:
 deploy-job-production:
   image: alpine
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
   cache: []
   environment:
     name: production
@@ -140,6 +150,8 @@ deploy-job-production:
 test-production-deployment:
   image: alpine
   stage: test-deployment
+  variables:
+    GIT_STRATEGY: none
   cache: []
   only:
     - master

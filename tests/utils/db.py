@@ -29,7 +29,7 @@ def add_default_bollards():
         bollard1 = Bollard(
             b_number=1, 
             b_name="Test Bollard 1", 
-            comment="Test comment for bollard 1.", 
+            comment="Test comment for bollard 1.",
             image_icon="test_bollard_icon_1.jpeg")
         bollard2 = Bollard(
             b_number=2, 

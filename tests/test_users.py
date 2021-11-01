@@ -168,8 +168,8 @@ def test_username_change_existing_username_error(client, auth):
 
 # 'mocker' fixture provided by pytest-mock
 def test_account_image_updates_correctly(client, auth, mocker: MockerFixture):
-    auth.login()
     mocker.patch('PIL.Image.Image.save')
+    auth.login()
     with open("tests/img/test-profile-pic.jpg", 'rb') as img:
         imgStringIO = BytesIO(img.read())
     rv = client.post("/account", data=dict(

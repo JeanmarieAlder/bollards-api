@@ -69,26 +69,3 @@ def bollards_details(bollard_id):
         'neighbours': neighbours
     })
 
-
-@api.route('/bollards/paginate/<int:page>')
-def bollards_paginate(page):
-    bollards = Bollard.query.order_by(Bollard.b_number, 
-                    Bollard.b_letter).paginate(page=page, per_page=2)
-    print(dir(bollards))
-    resp = []
-    
-    return jsonify({
-        "has_next": bollards.has_next,
-        "has_prev": bollards.has_prev,
-        "items": str(bollards.items),
-        # "iter_pages": bollards.iter_pages,
-        # "next": bollards.next,
-        "next_num": bollards.next_num,
-        "page": bollards.page,
-        "pages": bollards.pages,
-        "per_page": bollards.per_page,
-        # "prev": bollards.prev,
-        "prev_num": bollards.prev_num,
-        "query": str(bollards.query),
-        "total": bollards.total
-    })
