@@ -107,6 +107,7 @@ deploy-staging-coverage:
   before_script: []
   script:
     - echo "Deploying code coverage on development server..."
+    - cat /htmlcov/index.html
     - chmod og= $TEST_ID_RSA # This is a requirements, they said...
     - apk update && apk add openssh-client
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "rm -rf /srv/bollards/coverage/api"
