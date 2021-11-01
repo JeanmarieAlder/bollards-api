@@ -30,3 +30,12 @@ def test_modify_bollard(client, auth):
     assert b'<h1 class="m-2">Bollards List</h1>' in resp
     assert b'<b>No 42z</b>' in resp
     assert b'Bollard No 42 has been updated' in resp
+
+
+def test_delete_bollard(client, auth):
+    auth.login()
+    rv = client.post("/delete/1", follow_redirects=True)
+    resp = rv.data
+    print(resp)
+    assert b'Bollard deleted successfully.' in resp
+    assert b'<b>No 1</b>' not in resp
