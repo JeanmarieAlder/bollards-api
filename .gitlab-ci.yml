@@ -113,7 +113,7 @@ deploy-staging-coverage:
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "rm -rf /srv/bollards/coverage/api"
     - scp -r -i $TEST_ID_RSA -o StrictHostKeyChecking=no ./api "$DEPLOYER_USER@$TEST_SERVER_URL:/srv/bollards/coverage"
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/Coverage report/$CI_COMMIT_SHORT_SHA - develop - Coverage report/' /srv/bollards/coverage/api/index.html"
-    - echo "Code coverage successfully deployed (Development)." - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up --no-deps nginx"
+    - echo "Code coverage successfully deployed (Development)." - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up -d --build --no-deps nginx"
 
 deploy-job-production:
   image: alpine
