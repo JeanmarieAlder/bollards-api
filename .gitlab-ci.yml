@@ -112,7 +112,7 @@ deploy-staging-coverage:
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "rm -rf /srv/bollards/coverage/api"
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/coverage && curl -L -o artifacts.zip 'https://gitlab.com/JeanmarieAlder/bollards-api/-/jobs/1733645839/artifacts/download' && unzip artifacts.zip && rsync -a --delete htmlcov/ api/ && rm -rf artifacts.zip htmlcov"
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/Coverage report/$CI_COMMIT_SHORT_SHA - develop - Coverage report/' /srv/bollards/coverage/api/index.html"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose restart nginx --no-deps"
+    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose restart nginx"
     - echo "Code coverage successfully deployed (Development)." 
 
 deploy-job-production:
