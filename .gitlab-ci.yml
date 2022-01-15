@@ -146,7 +146,7 @@ deploy-job-production:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "cd /srv/bollards/bollards_api && git checkout bollards_api/templates/home.html && git pull"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "sed -i 's/%%VERSION%%/$CI_COMMIT_SHORT_SHA/' /srv/bollards/bollards_api/bollards_api/templates/home.html"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "docker exec flask_api flask db upgrade"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$SERVER_URL "docker exec flask_api flask db upgrade"
     - echo "Application successfully deployed (Production)."
 
 test-production-deployment:
