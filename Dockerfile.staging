@@ -9,7 +9,7 @@ COPY . /bollards_api
 
 WORKDIR /bollards_api
 
-RUN flask db upgrade
+RUN export FLASK_APP=run.py && flask db upgrade
 
 EXPOSE 8000
 
