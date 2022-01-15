@@ -34,6 +34,8 @@ class Bollard(db.Model):
     comment = db.Column(db.Text(), default="")
     b_lat = db.Column(db.Numeric(8,5), nullable=False, default=46.64692)
     b_lng = db.Column(db.Numeric(8,5), nullable=False, default=6.28342)
+    b_easting = db.Column(db.Numeric(9,1), nullable=True, default=2511562.9)
+    b_northing = db.Column(db.Numeric(9,1), nullable=True, default=1166839.3)
     image_icon = db.Column(db.String(25), nullable=False, default='default_bollard.jpeg')
     images = db.relationship("Bimage", backref='bollard', lazy=True,
             cascade="all, delete-orphan")
