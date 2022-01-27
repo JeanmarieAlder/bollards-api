@@ -41,6 +41,9 @@ build-project:
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
+  environment:
+    name: code-coverage
+    url: https://jeanmariealder.gitlab.io/-/bollards-api/-/jobs/$CI_JOB_ID/artifacts/htmlcov/index.html
   script:
     - echo "Running unit tests..."
     - pytest --cov=bollards_api --cov-report=html
@@ -101,28 +104,6 @@ test-staging-deployment:
     - curl -s "https://$TEST_API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
     - echo "Build $CI_COMMIT_SHORT_SHA is live on staging server."
 
-deploy-staging-coverage:
-  image: alpine
-  stage: deploy
-  variables:
-    GIT_STRATEGY: none
-  cache: []
-  environment:
-    name: staging-coverage
-    url: https://$TEST_COVERAGE_URL
-  allow_failure: true
-  only:
-    - develop
-  before_script: []
-  script:
-    - echo "Deploying code coverage on development server..."
-    - mv ./htmlcov ./api # allready rename folder
-    - chmod og= $TEST_ID_RSA # This is a requirements, they said...
-    - apk update && apk add openssh-client
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "rm -rf /srv/bollards/coverage/api"
-    - scp -r -i $TEST_ID_RSA -o StrictHostKeyChecking=no ./api "$DEPLOYER_USER@$TEST_SERVER_URL:/srv/bollards/coverage"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/Coverage report/$CI_COMMIT_SHORT_SHA - develop - Coverage report/' /srv/bollards/coverage/api/index.html && docker restart nginx"
-    - echo "Code coverage successfully deployed (Development)." 
 
 deploy-job-production:
   image: alpine
