@@ -42,7 +42,7 @@ build-project:
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   environment:
-    name: code-coverage
+    name: code-coverage-$CI_COMMIT_BRANCH
     url: https://jeanmariealder.gitlab.io/-/bollards-api/-/jobs/$CI_JOB_ID/artifacts/htmlcov/index.html
   script:
     - echo "Running unit tests..."
