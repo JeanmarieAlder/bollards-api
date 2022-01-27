@@ -1,11 +1,11 @@
 
 import json
-from os import name
+from os import name, environ
 
 from flask_cors import CORS
 
 from bollards_api.models import Bollard
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, Response
 
 from bollards_api.api.utils import get_neighbours_by_number
 
@@ -27,6 +27,20 @@ def bollards_list():
 
         })
     return jsonify(resp)
+
+
+@api.route('/bollards/list/csv')
+def bollards_list_csv():
+    """Downloads a csv file with all bollards and their attributes."""
+    bollards = Bollard.query.all()
+    resp = "id,b_number,b_letter,b_type,b_name,comment,b_lat,b_lng,b_easting,b_northing,b_height,image_icon\n"
+    for b in bollards:
+        resp += f"{b.id},{b.b_number},{b.b_letter},{b.b_type},{b.b_name},\"{b.comment}\",{b.b_lat},{b.b_lng},{b.b_easting},{b.b_northing},{b.b_height},{environ['FRONTEND_URL']}/static/img/bollards_icon/{b.image_icon}\n"
+    return Response(
+        resp,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=bollards_list.csv"})
 
 
 @api.route('/bollards/markers')

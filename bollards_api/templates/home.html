@@ -5,6 +5,7 @@
     <a href="{{ url_for('users.login') }}"><button class="btn btn-outline-success p-2">Login</button></a>
     <a href="{{ url_for('bollards.add') }}"><button class="btn btn-outline-success p-2">New Bollard</button></a>
     <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success p-2">List Bollards</button></a>
+    <a href="{{ url_for('api.bollards_list_csv') }}"><button class="btn btn-outline-success p-2">Export bollards in csv</button></a>
   </div>
   <div class="card-container p-1">
     <div class="p-1 row text-center justify-content-center">
@@ -47,6 +48,7 @@
     <a href="{{ url_for('users.login') }}"><button class="btn btn-outline-success p-2">Login</button></a>
     <a href="{{ url_for('bollards.add') }}"><button class="btn btn-outline-success p-2">New Bollard</button></a>
     <a href="{{ url_for('bollards.list_bollards') }}"><button class="btn btn-outline-success p-2">List Bollards</button></a>
+    <a href="{{ url_for('api.bollards_list_csv') }}"><button class="btn btn-outline-success p-2">Export bollards in csv</button></a>
   </div>
   <div class="build-no-div">
     <i>Created by Jean-Marie Alder (<a href="mailto:jeanmarie.alder@gmail.com">jeanmarie.alder@gmail.com</a>) under the MIT license. <b>Build number:</b> %%VERSION%%</i>
