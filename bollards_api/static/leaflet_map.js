@@ -8,9 +8,12 @@ var myBollardMap = new L.Map('bollardmap', {
     crs: L.CRS.EPSG3857,
     continuousWorld: true,
     worldCopyJump: false
+
 });
 var url = 'https://wmts20.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg';
-var tilelayer = new L.tileLayer(url);
+var tilelayer = new L.tileLayer(url, {
+    attribution: '&copy; Data: <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a> contributors'
+});
 
 const init_lat = document.currentScript.getAttribute('ilat');
 const init_lng = document.currentScript.getAttribute('ilng');
