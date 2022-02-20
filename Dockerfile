@@ -11,4 +11,4 @@ WORKDIR /bollards_api
 
 EXPOSE 8000
 
-CMD ["/bin/sh",  "-c",  "gunicorn -w 2 -b 0.0.0.0:8000 run:app"]
+CMD ["/bin/sh",  "-c",  "gunicorn -w 1 -b 0.0.0.0:8000 run:app"]
