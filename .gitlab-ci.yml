@@ -14,7 +14,6 @@ variables:
   REGISTRATION_SECRET_PHRASE: $REGISTRATION_SECRET_PHRASE
   TEST_REGISTRATION_SECRET_PHRASE: $TEST_REGISTRATION_SECRET_PHRASE
   TEST_API_URL: "bollards-api.wakxy.rocks"
-  TEST_COVERAGE_URL: bollards.wakxy.rocks/coverage/api
   API_URL: "bollards-api.ch"
 
 # If you want to also cache the installed packages, you have to install
@@ -78,7 +77,7 @@ deploy-job-staging:
     - echo "Alpine image loaded."
   script:
     - echo "Deploying application on development server..."
-    - chmod og= $TEST_ID_RSA # This is a requirements, they said...
+    - chmod og= $TEST_ID_RSA # This is a requirement, they said...
     - apk update && apk add openssh-client
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git checkout bollards_api/templates/home.html && git pull"
     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/%%VERSION%%/$CI_COMMIT_SHORT_SHA/' /srv/bollards/bollards_api/bollards_api/templates/home.html"
