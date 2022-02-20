@@ -102,14 +102,15 @@ def test_add_bollard_page(client, auth):
     resp = rv.data
     print(resp)
     assert b'<h1 style="float: left;">New Bollard</h1>' in resp
-    assert b'<input autocomplete="off" class="form-control form-control-sm" id="b_number" name="b_number" required type="text" value="">' in resp
+    assert b'<input autocomplete="off" class="form-control form-control-sm" id="b_number" name="b_number" required type="number" value="">' in resp
 
 
 def test_add_simple_bollard(client, auth):
     auth.login()
     rv = client.post("/add", data=dict(
         b_number=69,
-        b_type="Custom"
+        b_type="Custom",
+        b_letter=""
     ), follow_redirects=True)
     resp = rv.data
     print(resp)
@@ -127,6 +128,7 @@ def test_add_bollard_with_images(client, auth, mocker: MockerFixture):
     rv = client.post("/add", data=dict(
         b_number=69,
         b_type="Custom",
+        b_letter="",
         main_image=(imgMainStringIO, "main-bollard.jpg"),
         images=(imgStringIO, "other-bollard.jpg")
     ), follow_redirects=True)
@@ -139,7 +141,8 @@ def test_add_existing_bollard_fails(client, auth):
     auth.login()
     rv = client.post("/add", data=dict(
         b_number=1,
-        b_type="Custom"
+        b_type="Custom",
+        b_letter=""
     ), follow_redirects=True)
     resp = rv.data
     print(resp)

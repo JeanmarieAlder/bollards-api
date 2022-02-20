@@ -150,7 +150,7 @@ def test_username_changes_correctly(client, auth):
     assert b'<h1>Account</h1>' in resp
     assert b'Accound updated, your username is now noobylol.' in resp
     assert b'<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion-account">' in resp
-    assert b'<input class="form-control form-control-lg" id="username" name="username" required type="text" value="noobylol">' in resp
+    assert b'<input class="form-control form-control-lg" id="username" maxlength="25" minlength="3" name="username" required type="text" value="noobylol">' in resp
 
 
 def test_username_change_existing_username_error(client, auth):
@@ -163,7 +163,7 @@ def test_username_change_existing_username_error(client, auth):
     print(resp)
     assert b'<h1>Account</h1>' in resp
     assert b'<span>Username already taken</span>' in resp
-    assert b'<input class="form-control form-control-lg is-invalid" id="username" name="username" required type="text" value="noob">' in resp
+    assert b'<input class="form-control form-control-lg is-invalid" id="username" maxlength="25" minlength="3" name="username" required type="text" value="noob">' in resp
 
 
 # 'mocker' fixture provided by pytest-mock
