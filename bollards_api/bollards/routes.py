@@ -1,8 +1,11 @@
 from datetime import datetime
 
 from bollards_api import db
-from bollards_api.bollards.utils import save_picture_bollard, crop_save_picture_bollard
 from bollards_api.bollards.forms import BollardForm
+from bollards_api.bollards.utils import (crop_save_picture_bollard,
+                                         get_height_from_coordinates,
+                                         get_swiss_coordinates,
+                                         save_picture_bollard)
 from bollards_api.models import Bimage, Bollard
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
@@ -79,12 +82,15 @@ def add():
                             b_letter=form.b_letter.data.upper()).first():
             flash(f'Bollard No {form.b_number.data} allready exists', 'danger')
         else:
+            easting, northing = get_swiss_coordinates(form.b_lat.data, form.b_lng.data)
+            height = get_height_from_coordinates(easting, northing)
             new_bollard = Bollard(b_number=form.b_number.data,
                                     b_letter=form.b_letter.data.upper(),
                                     b_type=form.b_type.data, 
                                     b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
-                                    b_lng=form.b_lng.data)
+                                    b_lng=form.b_lng.data, b_easting=easting,
+                                    b_northing=northing, b_height=height)
             if form.main_image.data:
                 picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
                 new_bollard.image_icon = picture_file_icon
