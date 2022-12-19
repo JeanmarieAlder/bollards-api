@@ -3,6 +3,8 @@ FROM python:3.9.6-slim-buster
 
 COPY requirements.txt /
 
+RUN pip install --upgrade pip
+
 RUN pip install -r requirements.txt
 
 COPY . /bollards_api
