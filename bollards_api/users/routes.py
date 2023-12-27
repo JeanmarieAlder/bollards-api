@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from bollards_api import bcrypt, db
 from bollards_api.models import User
@@ -77,7 +77,7 @@ def account():
             # print(picture_file)
             current_user.profile_pic = picture_file
         current_user.username = form_account.username.data
-        current_user.date_updated = datetime.utcnow()
+        current_user.date_updated = datetime.now(timezone.utc)
         db.session.commit()
         flash(f'Accound updated, your username is now {form_account.username.data}.', 'success')
     elif form_password_submitted and form_password.validate_on_submit():
@@ -85,7 +85,7 @@ def account():
         if existing_user and bcrypt.check_password_hash(existing_user.password, form_password.old_password.data):
             hashed_password = bcrypt.generate_password_hash(form_password.new_password.data).decode('utf-8')
             current_user.password = hashed_password
-            current_user.date_updated = datetime.utcnow()
+            current_user.date_updated = datetime.now(timezone.utc)
             db.session.commit()
             flash(f'Account password updated successfully.', 'success')
         else:

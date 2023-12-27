@@ -1,13 +1,14 @@
 from bollards_api.models import Bollard
 
 
-"""
-Get the position, number and name of the closest bollards 
-(1no before, same no and 1no after)
 
-@return an array of all neighbouring bollards
-"""
 def get_neighbours_by_number(current_bollard):
+    """
+    Get the position, number and name of the closest bollards 
+    (1no before, same no and 1no after)
+
+    @return an array of all neighbouring bollards
+    """
     current_number = current_bollard.b_number
 
     neighbours = Bollard.query.filter(

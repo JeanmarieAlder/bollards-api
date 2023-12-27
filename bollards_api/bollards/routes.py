@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from bollards_api import db
 from bollards_api.bollards.forms import BollardForm
@@ -40,7 +40,7 @@ def manage(bollard_id):
         bollard.comment = form.comment.data
         bollard.b_lat = form.b_lat.data
         bollard.b_lng = form.b_lng.data
-        bollard.date_updated = datetime.utcnow()
+        bollard.date_updated = datetime.now(timezone.utc)
         if form.main_image.data:
             picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
             bollard.image_icon = picture_file_icon

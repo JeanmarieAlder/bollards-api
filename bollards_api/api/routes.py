@@ -1,6 +1,5 @@
 
-import json
-from os import name, environ
+from os import environ
 
 from flask_cors import CORS
 

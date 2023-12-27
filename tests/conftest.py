@@ -2,7 +2,7 @@
 # https://github.com/pallets/flask/blob/2.0.2/examples/tutorial/tests/conftest.py
 
 import pytest
-from bollards_api import create_app, db
+from bollards_api import create_app
 from bollards_api.config import TestConfig
 
 from tests.utils.db import add_default_bollards, add_default_user, reset_db

@@ -7,7 +7,7 @@ from PIL import Image
 
 
 def get_swiss_coordinates(lat, lng):
-    url = f"https://geodesy.geo.admin.ch/reframee/navref?format=json&easting={lng}&northing={lat}&altitude=NaN&input=etrf93-ed&output=lv95"
+    url = f"https://geodesy.geo.admin.ch/reframe/navref?format=json&easting={lng}&northing={lat}&altitude=NaN&input=etrf93-ed&output=lv95"
     try:
         res = requests.get(url).json()
         return res["easting"], res["northing"]
@@ -21,7 +21,7 @@ def get_height_from_coordinates(easting, northing):
     url = f"https://api3.geo.admin.ch/rest/services/height?easting={easting}&elevation_model=COMB&northing={northing}&sr=2056"
     try:
         res = requests.get(url).json()
-        return res["height"]
+        return int(float(res["height"]))
     except:
         #Default value if api doesn't reply
         return 0

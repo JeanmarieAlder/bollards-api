@@ -16,7 +16,7 @@
             <div id="collapseOne" class="accordion-collapse collapse {{ accordion_account_open }}" aria-labelledby="headingOne" data-bs-parent="#accordion-account">
                 <div class="accordion-body">
                     <form method="POST" action="" enctype="multipart/form-data">
-                        {{ form_account.hidden_tag() }}
+                        {{ form_account.csrf_token(id="account_csrf_token") }}
                         <fieldset class="form-group">
                             <div class="form-group">
                                 {{ form_account.username.label(class="form-control-label") }}
