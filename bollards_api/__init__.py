@@ -6,6 +6,11 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from bollards_api.config import Config
+from dotenv import load_dotenv
+
+
+# take environment variables from api.env
+load_dotenv(dotenv_path='api.env')
 
 db = SQLAlchemy()
 migrate = Migrate()

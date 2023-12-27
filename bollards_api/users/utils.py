@@ -31,7 +31,7 @@ def crop_save_picture(new_picture, folder_path, fixed_square_size):
         i = crop_max_square(i)
     
     # Reduce the size of picture
-    i.thumbnail(output_size, Image.ANTIALIAS)
+    i.thumbnail(output_size, Image.LANCZOS)
 
     i.save(picture_path)
     return picture_filename

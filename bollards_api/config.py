@@ -1,5 +1,9 @@
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="api.env")
+
 
 class Config:
     SECRET_KEY = os.environ['FLASK_SECRET_KEY']

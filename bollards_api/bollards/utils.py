@@ -56,7 +56,7 @@ def crop_save_icon_bollard(new_picture, folder_path, fixed_square_size):
         i = crop_max_square(i)
         
     # Reduce the size of picture
-    i.thumbnail(output_size, Image.ANTIALIAS)
+    i.thumbnail(output_size, Image.LANCZOS)
 
     i.save(picture_path)
     return picture_filename
@@ -81,7 +81,7 @@ def crop_save_picture_bollard(new_picture, folder_path):
             new_width = (MAX_SIZE * i_width) // i_height
         output_size = (new_width, new_height)
         # Reduce the size of picture
-        i.thumbnail(output_size, Image.ANTIALIAS)
+        i.thumbnail(output_size, Image.LANCZOS)
 
     i.save(picture_path)
     return picture_filename
