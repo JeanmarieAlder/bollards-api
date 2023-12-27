@@ -143,6 +143,6 @@ test-production-deployment:
     - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
     - apk add --no-cache curl
     - sleep 10
-    - curl -s "https://$API_URL" | grep -q "Welcome to Bollards API"
-    - curl -s "https://$API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
+    - curl -s --ssl-no-revoke "https://$API_URL" | grep -q "Welcome to Bollards API"
+    - curl -s --ssl-no-revoke "https://$API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
     - echo "Build $CI_COMMIT_SHORT_SHA is live on production server."
