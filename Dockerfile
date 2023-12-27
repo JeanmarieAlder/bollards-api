@@ -1,7 +1,13 @@
-FROM python:3.9.6-slim-buster 
+FROM python:3.12.1-alpine
 # For raspberry pi, user python-buster instead of slim-buster
 
 COPY requirements.txt /
+
+RUN \
+ apk add --no-cache python3 postgresql-libs && \
+ apk add --no-cache --virtual .build-deps gcc python3-dev musl-dev postgresql-dev
+
+RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 

@@ -4,7 +4,7 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
   - test-deployment
 
-image: python:3.8.10
+image: python:3.12.1
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
@@ -62,46 +62,46 @@ sonarqube-fake-test-job:   # This job also runs in the test stage.
     - sleep 10
     - echo "No security issues found, at all."
 
-deploy-job-staging:
-  image: alpine
-  stage: deploy
-  variables:
-    GIT_STRATEGY: none
-  cache: []
-  environment:
-    name: staging
-    url: https://$TEST_API_URL
-  only:
-    - develop
-  before_script:
-    - echo "Alpine image loaded."
-  script:
-    - echo "Deploying application on development server..."
-    - chmod og= $TEST_ID_RSA # This is a requirement, they said...
-    - apk update && apk add openssh-client
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git checkout bollards_api/templates/home.html && git pull"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/%%VERSION%%/$CI_COMMIT_SHORT_SHA/' /srv/bollards/bollards_api/bollards_api/templates/home.html"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
-    - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "docker exec flask_api flask db upgrade"
-    - echo "Application successfully deployed (Development)."
+# deploy-job-staging:
+#   image: alpine
+#   stage: deploy
+#   variables:
+#     GIT_STRATEGY: none
+#   cache: []
+#   environment:
+#     name: staging
+#     url: https://$TEST_API_URL
+#   only:
+#     - develop
+#   before_script:
+#     - echo "Alpine image loaded."
+#   script:
+#     - echo "Deploying application on development server..."
+#     - chmod og= $TEST_ID_RSA # This is a requirement, they said...
+#     - apk update && apk add openssh-client
+#     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards/bollards_api && git checkout bollards_api/templates/home.html && git pull"
+#     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "sed -i 's/%%VERSION%%/$CI_COMMIT_SHORT_SHA/' /srv/bollards/bollards_api/bollards_api/templates/home.html"
+#     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "cd /srv/bollards && docker-compose up -d --build flask_api"
+#     - ssh -i $TEST_ID_RSA -o StrictHostKeyChecking=no $DEPLOYER_USER@$TEST_SERVER_URL "docker exec flask_api flask db upgrade"
+#     - echo "Application successfully deployed (Development)."
 
-test-staging-deployment:
-  image: alpine
-  stage: test-deployment
-  variables:
-    GIT_STRATEGY: none
-  cache: []
-  only:
-    - develop
-  before_script:
-    - echo "Alpine image loaded."
-  script:
-    - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
-    - apk add --no-cache curl
-    - sleep 5
-    - curl -s "https://$TEST_API_URL" | grep -q "Welcome to Bollards API"
-    - curl -s "https://$TEST_API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
-    - echo "Build $CI_COMMIT_SHORT_SHA is live on staging server."
+# test-staging-deployment:
+#   image: alpine
+#   stage: test-deployment
+#   variables:
+#     GIT_STRATEGY: none
+#   cache: []
+#   only:
+#     - develop
+#   before_script:
+#     - echo "Alpine image loaded."
+#   script:
+#     - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
+#     - apk add --no-cache curl
+#     - sleep 5
+#     - curl -s "https://$TEST_API_URL" | grep -q "Welcome to Bollards API"
+#     - curl -s "https://$TEST_API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
+#     - echo "Build $CI_COMMIT_SHORT_SHA is live on staging server."
 
 
 deploy-job-production:
@@ -143,6 +143,6 @@ test-production-deployment:
     - echo "Testing build $CI_COMMIT_SHORT_SHA on staging server."
     - apk add --no-cache curl
     - sleep 10
-    - curl -s "https://$API_URL" | grep -q "Welcome to Bollards API"
-    - curl -s "https://$API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
+    - curl -s --ssl-no-revoke "https://$API_URL" | grep -q "Welcome to Bollards API"
+    - curl -s --ssl-no-revoke "https://$API_URL" | grep -q "$CI_COMMIT_SHORT_SHA"
     - echo "Build $CI_COMMIT_SHORT_SHA is live on production server."

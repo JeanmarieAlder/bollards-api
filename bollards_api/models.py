@@ -1,12 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
-from sqlalchemy.orm import backref, relationship
 from bollards_api import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    # return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,8 +18,8 @@ class User(db.Model, UserMixin):
     last_lon = db.Column(db.Numeric(8,5), nullable=False, default=6.28342)
     last_zoom = db.Column(db.Integer, nullable=False, default=9)
 
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    date_modified = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    date_modified = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"User('{self.username}')"
@@ -43,8 +43,8 @@ class Bollard(db.Model):
     informations = db.relationship("Information", backref='bollard', 
             lazy=True, cascade="all, delete-orphan")
 
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    date_updated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    date_updated = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"Bollard('{self.b_number}', '{self.b_name}', '{self.comment}', '{self.image_icon}')"

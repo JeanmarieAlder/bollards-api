@@ -46,6 +46,7 @@ class UpdateAccountForm(FlaskForm):
 
     profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit_account = SubmitField('Update')
+    csrf_token = StringField('CSRF Token')
 
     def validate_username(self, username):
         if username.data != current_user.username:
