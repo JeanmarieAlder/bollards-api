@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.12.1-alpine
 # For raspberry pi, user python-buster instead of slim-buster
 
 COPY requirements.txt /
