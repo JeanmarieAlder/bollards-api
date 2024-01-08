@@ -3,7 +3,7 @@ import secrets
 import requests
 
 from flask import current_app
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def get_swiss_coordinates(lat, lng):
@@ -48,6 +48,9 @@ def crop_save_icon_bollard(new_picture, folder_path, fixed_square_size):
     output_size = (fixed_square_size, fixed_square_size)
     i = Image.open(new_picture)
 
+    # Use this to make images that have exif orientation tags work (auto. orientation)
+    i = ImageOps.exif_transpose(i)
+
     # Crop image to square
     # print(str(i.width) + " " + str(i.height))
     i_width = i.width
@@ -70,6 +73,10 @@ def crop_save_picture_bollard(new_picture, folder_path):
     picture_path = os.path.join(current_app.root_path, 'static', 'img', 
                                     folder_path, picture_filename)
     i = Image.open(new_picture)
+    
+    # Use this to make images that have exif orientation tags work (auto. orientation)
+    i = ImageOps.exif_transpose(i)
+
     i_width = i.width
     i_height = i.height
     if i_width > MAX_SIZE or i_height > MAX_SIZE:

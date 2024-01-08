@@ -2,7 +2,7 @@ import os
 import secrets
 
 from flask import current_app
-from PIL import Image
+from PIL import Image, ImageOps
 
 def crop_center(pil_img, crop_width, crop_height):
     img_width, img_height = pil_img.size
@@ -24,6 +24,9 @@ def crop_save_picture(new_picture, folder_path, fixed_square_size):
                                     folder_path, picture_filename)
     output_size = (fixed_square_size, fixed_square_size)
     i = Image.open(new_picture)
+
+    # Use this to make images that have exif orientation tags work (auto. orientation)
+    i = ImageOps.exif_transpose(i)
 
     i_width = i.width
     i_height = i.height
