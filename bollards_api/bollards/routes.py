@@ -90,7 +90,8 @@ def add():
                                     b_name=form.b_name.data,
                                     comment=form.comment.data, b_lat=form.b_lat.data,
                                     b_lng=form.b_lng.data, b_easting=easting,
-                                    b_northing=northing, b_height=height)
+                                    b_northing=northing, b_height=height,
+                                    date_updated=datetime.now(timezone.utc))
             if form.main_image.data:
                 picture_file_icon, picture_file = save_picture_bollard(form.main_image.data)
                 new_bollard.image_icon = picture_file_icon
